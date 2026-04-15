@@ -24,11 +24,11 @@ public class PlayerController : GameStats
         rb.freezeRotation = true;
     }
 
-    // --- MOVEMENT ---
-    // Keeping InputValue for movement as it is a continuous "Value" type
-    public void OnMove(InputAction.CallbackContext context)
+
+    public void OnMove(InputValue value)
     {
-        moveInput = context.ReadValue<Vector2>();
+ 
+        moveInput = value.Get<Vector2>();
     }
 
     private void FixedUpdate()
@@ -42,27 +42,27 @@ public class PlayerController : GameStats
         }
     }
 
-    // --- SHOOTING LOGIC ---
-    // Switching to InputAction.CallbackContext to filter for the 'Started' phase (Initial Press)
 
-    public void OnShoot_Left(InputAction.CallbackContext context)
+
+    public void OnShoot_Left(InputValue value)
     {
-        if (context.started) SpawnProjectile(180f);
+        Debug.Log("Hello");
+        if (value.isPressed) SpawnProjectile(180f);
     }
 
-    public void OnShoot_Right(InputAction.CallbackContext context)
+    public void OnShoot_Right(InputValue value)
     {
-        if (context.started) SpawnProjectile(0f);
+        if (value.isPressed) SpawnProjectile(0f);
     }
 
-    public void OnShoot_Above(InputAction.CallbackContext context)
+    public void OnShoot_Above(InputValue value)
     {
-        if (context.started) SpawnProjectile(90f);
+        if (value.isPressed) SpawnProjectile(90f);
     }
 
-    public void OnShoot_Under(InputAction.CallbackContext context)
+    public void OnShoot_Under(InputValue value)
     {
-        if (context.started) SpawnProjectile(-90f);
+        if (value.isPressed) SpawnProjectile(-90f);
     }
 
     private void SpawnProjectile(float angle)
