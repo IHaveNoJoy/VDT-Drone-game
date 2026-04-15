@@ -67,17 +67,21 @@ public class PlayerController : GameStats
 
     private void SpawnProjectile(float angle)
     {
-        // 1. Cooldown Check: Ensures the input system doesn't jam if multiple directions are hit
         if (Time.time < nextFireTime) return;
         if (projectilePrefab == null) return;
 
         nextFireTime = Time.time + fireRate;
 
-        // 2. Spawn Logic
         Vector3 spawnPos = shootPoint != null ? shootPoint.position : transform.position;
         Quaternion rotation = Quaternion.Euler(0, 0, angle);
 
-        Instantiate(projectilePrefab, spawnPos, rotation);
+        GameObject bullet = Instantiate(projectilePrefab, spawnPos, rotation);
+
+        Projectile proj = bullet.GetComponent<Projectile>();
+        if (proj != null)
+        {
+            proj.owner = this; //assign owner to bullet to avoid self damage
+        }
     }
 
     public override void Kill()

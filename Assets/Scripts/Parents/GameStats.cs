@@ -2,18 +2,22 @@ using UnityEngine;
 
 public class GameStats : MonoBehaviour
 {
-    public string Name;
-    public int MaxHp;
+    [Header("Data")]
+    public EnemyData data;
+
     public int CurrentHP;
-    private bool IsDead;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public bool IsDead;
+
     virtual public void Start()
     {
-        CurrentHP = MaxHp;
+        if (data != null)
+        {
+            CurrentHP = data.maxHp;
+        }
+
         IsDead = false;
     }
 
-    // Update is called once per frame
     virtual public void Update()
     {
         if (IsDead)
@@ -24,17 +28,18 @@ public class GameStats : MonoBehaviour
 
     virtual public void GetDamage(int Damage)
     {
-        CurrentHP -= Damage;
-    }
+        if (IsDead) return;
 
-    virtual public bool IsDeath()
-    {
-        if (CurrentHP <= 0 && !IsDead) { IsDead = true; return true; }
-        return false;
+        CurrentHP -= Damage;
+
+        if (CurrentHP <= 0)
+        {
+            IsDead = true;
+        }
     }
 
     virtual public void Kill()
     {
-        Destroy(this);
+        Destroy(gameObject);
     }
 }
