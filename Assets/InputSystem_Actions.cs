@@ -226,6 +226,24 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shoot_Sniper"",
+                    ""type"": ""Button"",
+                    ""id"": ""7bd17489-79e1-4d63-aca3-2f094a5c577f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Drop_Bomb"",
+                    ""type"": ""Button"",
+                    ""id"": ""81dc8bb9-0d83-4cd2-8682-b32933aafe1f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -677,6 +695,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76764feb-d543-4663-9520-a3fd3dedd1e5"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Shoot_Sniper"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9ba9c87-9463-4c0e-a823-5758bde0d5f4"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Drop_Bomb"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1279,6 +1319,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Shoot_Under = m_Player.FindAction("Shoot_Under", throwIfNotFound: true);
         m_Player_Boost = m_Player.FindAction("Boost", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
+        m_Player_Shoot_Sniper = m_Player.FindAction("Shoot_Sniper", throwIfNotFound: true);
+        m_Player_Drop_Bomb = m_Player.FindAction("Drop_Bomb", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1387,6 +1429,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Shoot_Under;
     private readonly InputAction m_Player_Boost;
     private readonly InputAction m_Player_Dash;
+    private readonly InputAction m_Player_Shoot_Sniper;
+    private readonly InputAction m_Player_Drop_Bomb;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1459,6 +1503,14 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         /// <summary>
+        /// Provides access to the underlying input action "Player/Shoot_Sniper".
+        /// </summary>
+        public InputAction @Shoot_Sniper => m_Wrapper.m_Player_Shoot_Sniper;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Drop_Bomb".
+        /// </summary>
+        public InputAction @Drop_Bomb => m_Wrapper.m_Player_Drop_Bomb;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1529,6 +1581,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @Shoot_Sniper.started += instance.OnShoot_Sniper;
+            @Shoot_Sniper.performed += instance.OnShoot_Sniper;
+            @Shoot_Sniper.canceled += instance.OnShoot_Sniper;
+            @Drop_Bomb.started += instance.OnDrop_Bomb;
+            @Drop_Bomb.performed += instance.OnDrop_Bomb;
+            @Drop_Bomb.canceled += instance.OnDrop_Bomb;
         }
 
         /// <summary>
@@ -1585,6 +1643,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @Shoot_Sniper.started -= instance.OnShoot_Sniper;
+            @Shoot_Sniper.performed -= instance.OnShoot_Sniper;
+            @Shoot_Sniper.canceled -= instance.OnShoot_Sniper;
+            @Drop_Bomb.started -= instance.OnDrop_Bomb;
+            @Drop_Bomb.performed -= instance.OnDrop_Bomb;
+            @Drop_Bomb.canceled -= instance.OnDrop_Bomb;
         }
 
         /// <summary>
@@ -1990,6 +2054,20 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDash(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Shoot_Sniper" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnShoot_Sniper(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Drop_Bomb" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDrop_Bomb(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

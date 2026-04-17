@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,17 +14,27 @@ public class PlayerController : GameStats
     [SerializeField] private float staminaDrainRate = 2f;
     [SerializeField] private float staminaRegenRate = 1.5f;
 
-    [Header("DASH (Charge)")]
+    [Header("DASH")]
     [SerializeField] private float dashSpeed = 80f;
     [SerializeField] private float dashDuration = 0.25f;
     [SerializeField] private float dashCooldown = 8f;
 
-    [Header("Shooting Settings")]
+    [Header("Normal Shooting")]
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform shootPoint;
     [SerializeField] private float fireRate = 0.15f;
 
+    [Header("Sniper Shooting")]
+    [SerializeField] private GameObject sniperProjectilePrefab;
+    [SerializeField] private float sniperFireRate = 4f;
+
+    [Header("Bomb")]
+    [SerializeField] private GameObject bombProjectilePrefab;
+    [SerializeField] private float bombFireRate = 15f;
+
     private float nextFireTime;
+    private float nextSniperTime;
+    private float nextBombTime;
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
@@ -41,11 +52,15 @@ public class PlayerController : GameStats
     // INVULNERABILITY
     public bool IsInvulnerable { get; private set; }
 
+    private Camera cam;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
+
+        cam = Camera.main;
 
         stamina = maxStamina;
     }
@@ -59,7 +74,7 @@ public class PlayerController : GameStats
 
     public void OnBoost(InputValue value)
     {
-        isBoosting = !isBoosting;
+        isBoosting = value.isPressed;
     }
 
     public void OnDash(InputValue value)
@@ -121,12 +136,11 @@ public class PlayerController : GameStats
         if (Time.time >= dashEndTime)
         {
             isDashing = false;
-        if (Time.time >= dashEndTime * 3)
             IsInvulnerable = false;
         }
     }
 
-    // ---------------- SHOOTING ----------------
+    // ---------------- NORMAL SHOOT ----------------
 
     public void OnShoot_Left(InputValue value)
     {
@@ -160,6 +174,60 @@ public class PlayerController : GameStats
 
         Instantiate(projectilePrefab, spawnPos, rotation);
     }
+
+    // ---------------- SNIPER SHOOT ----------------
+
+    public void OnShoot_Sniper(InputValue value)
+    {
+        if (!value.isPressed) return;
+        SpawnSniperShot();
+    }
+
+    private void SpawnSniperShot()
+    {
+        if (Time.time < nextSniperTime) return;
+        if (sniperProjectilePrefab == null) return;
+
+        nextSniperTime = Time.time + sniperFireRate;
+
+        Vector3 spawnPos = shootPoint != null ? shootPoint.position : transform.position;
+
+        Vector3 mouseWorld = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        mouseWorld.z = 0f;
+
+        Vector2 direction = (mouseWorld - spawnPos).normalized;
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+
+        Instantiate(sniperProjectilePrefab, spawnPos, rotation);
+    }
+
+// ---------------- bomb drop----------------
+     public void OnDrop_Bomb(InputValue value)
+    {
+        if (!value.isPressed) return;
+        DropBomb();
+    }
+    
+    private void DropBomb()
+    {
+        if (Time.time < nextBombTime) return;
+        if (bombProjectilePrefab == null) return;
+
+        nextBombTime= Time.time + bombFireRate;
+
+        Vector3 spawnPos = shootPoint != null ? shootPoint.position : transform.position;
+       
+        GameObject bomb = Instantiate(bombProjectilePrefab, spawnPos, Quaternion.identity);
+
+        Rigidbody2D rb = bomb.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+        }
+    }  
 
     // ---------------- DAMAGE ----------------
 
