@@ -15,5 +15,7 @@ MonoBehaviour:
   enemyName: SmallEnemy
   sprite: {fileID: 7482667652216324306, guid: f0206a0c13e25cc409712717b4408ab4, type: 3}
   maxHp: 50
-  moveSpeed: 2
-  size: 2
+  moveSpeed: 9
+  size: 1
+  contactDamage: 5
+  damageCooldown: 1

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40479ae6aeee68d439eb7dae45590995, type: 3}
-  m_Name: MediumEnemy
+  m_Name: Player
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  enemyName: MediumEnemy
-  sprite: {fileID: -9095717837082945937, guid: 4788ddd57b0c5ae48b6d8da2a65349cb, type: 3}
-  maxHp: 250
-  moveSpeed: 3
-  size: 4
-  contactDamage: 25
+  enemyName: Player
+  sprite: {fileID: 7482667652216324306, guid: e8f49ef0606de9b449bfc66b17e2fd88, type: 3}
+  maxHp: 50
+  moveSpeed: 10
+  size: 1
+  contactDamage: 10
   damageCooldown: 1

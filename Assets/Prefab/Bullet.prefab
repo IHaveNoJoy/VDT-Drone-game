@@ -109,7 +109,7 @@ MonoBehaviour:
   damage: 25
   speed: 2
   lifeSpan: 5
-  armingTime: 1
+  owner: {fileID: 1741139479086186886, guid: c218b4b51ecbe2a4b8b7a7b1ebaaa34f, type: 3}
 --- !u!58 &4703159868682598679
 CircleCollider2D:
   m_ObjectHideFlags: 0

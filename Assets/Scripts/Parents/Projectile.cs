@@ -8,7 +8,7 @@ public class Projectile : MonoBehaviour
     public float lifeSpan = 5f;
 
     [Header("Ownership")]
-    public GameStats owner; // 🚀 NEW: who fired this bullet
+    public GameStats owner;
 
     protected virtual void Start()
     {
@@ -22,14 +22,23 @@ public class Projectile : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<GameStats>(out GameStats stats))
-        {
-            // 🚫 prevent self-hit (spawn protection solved properly)
-            if (stats == owner) return;
+        if (!collision.TryGetComponent<GameStats>(out GameStats stats))
+            return;
 
-            stats.GetDamage(damage);
-            HitTarget();
-        }
+        // Ignore the owner (this already exists but keep it)
+        if (stats == owner)
+            return;
+
+        // EXTRA SAFETY: prevent hitting same "type"
+        if (owner is PlayerController && stats is PlayerController)
+            return;
+
+        if (owner is EnemyController && stats is EnemyController)
+            return;
+
+        // ✅ valid hit
+        stats.GetDamage(damage);
+        HitTarget();
     }
 
     protected virtual void HitTarget()

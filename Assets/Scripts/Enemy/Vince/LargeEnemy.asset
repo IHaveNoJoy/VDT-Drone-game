@@ -15,5 +15,7 @@ MonoBehaviour:
   enemyName: LargeEnemy
   sprite: {fileID: -2413806693520163455, guid: d822dd8ab7aecf84c8f5e40b378bea52, type: 3}
   maxHp: 1500
-  moveSpeed: 3
+  moveSpeed: 2
   size: 10
+  contactDamage: 50
+  damageCooldown: 1

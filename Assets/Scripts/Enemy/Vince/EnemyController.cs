@@ -1,19 +1,21 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(SpriteRenderer))] // ✅ ensure it exists
+[RequireComponent(typeof(SpriteRenderer))]
 public class EnemyController : GameStats
 {
     [Header("Target")]
     [SerializeField] private Transform target;
 
     private Rigidbody2D rb;
-    private SpriteRenderer sr; // ✅ NEW
+    private SpriteRenderer sr;
+
+    private float nextDamageTime;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>(); // ✅ NEW
+        sr = GetComponent<SpriteRenderer>();
 
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
@@ -32,10 +34,8 @@ public class EnemyController : GameStats
 
         if (data != null)
         {
-            // ✅ Apply size
             transform.localScale = Vector3.one * data.size;
 
-            // ✅ APPLY SPRITE (THIS WAS MISSING)
             if (sr != null && data.sprite != null)
             {
                 sr.sprite = data.sprite;
@@ -49,6 +49,24 @@ public class EnemyController : GameStats
 
         Vector2 direction = (target.position - transform.position).normalized;
         rb.linearVelocity = direction * data.moveSpeed;
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (data == null) return;
+
+        // cooldown check
+        if (Time.time < nextDamageTime) return;
+
+        if (collision.gameObject.TryGetComponent<PlayerController>(out PlayerController player))
+        {
+            if (player.IsInvulnerable) return;
+            Debug.Log("Enemy hit player"); // ✅ debug proof
+
+            player.GetDamage(data.contactDamage);
+
+            nextDamageTime = Time.time + data.damageCooldown;
+        }
     }
 
     public override void Kill()
