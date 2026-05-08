@@ -8,9 +8,8 @@ public class Projectile : MonoBehaviour
     public float lifeSpan = 5f;
     public float size = 1f;
 
-    [Header("Arming Logic")]
-    [SerializeField] private float armingTime = 0.25f;
-    private float timeElapsed = 0f;
+    [Header("Ownership")]
+    public GameStats owner;
 
     public virtual void Start()
     {
@@ -19,30 +18,32 @@ public class Projectile : MonoBehaviour
 
     public virtual void Update()
     {
-        // Track how long the bullet has been alive
-        timeElapsed += Time.deltaTime;
-
-        // Standard movement
         transform.Translate(Vector2.right * speed * Time.deltaTime);
     }
 
-    protected virtual void OnTriggerStay2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision == null) return;
+        if (!collision.TryGetComponent<GameStats>(out GameStats stats))
+            return;
 
-        // 1. Wait until armed
-        if (timeElapsed < armingTime) return;
+        // Ignore the owner (this already exists but keep it)
+        if (stats == owner)
+            return;
 
-        // 2. Once armed, check for stats
-        if (collision.TryGetComponent<GameStats>(out GameStats stats))
-        {
-            stats.GetDamage(damage);
-            HitTarget();
-        }
+        // EXTRA SAFETY: prevent hitting same "type"
+        if (owner is PlayerController && stats is PlayerController)
+            return;
+
+        if (owner is EnemyController && stats is EnemyController)
+            return;
+
+        // ✅ valid hit
+        stats.GetDamage(damage);
+        HitTarget();
     }
 
     protected virtual void HitTarget()
     {
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }

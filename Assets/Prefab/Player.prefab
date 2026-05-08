@@ -107,14 +107,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9903539a82b237448a4e61010187995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  Name: Tyler
-  MaxHp: 50
+  data: {fileID: 11400000, guid: 2be72a9f4e6787844866c775f8fa7374, type: 2}
   CurrentHP: 50
-  flySpeed: 10
-  stabilizationSmoothing: 0.3
-  projectilePrefab: {fileID: 2369070973217438956, guid: 9e1bca99a2beb0740997c0debdfdc2bb, type: 3}
-  shootPoint: {fileID: 0}
-  fireRate: 0.15
+  IsDead: 0
+  moveSpeed: 10
+  smoothing: 0.1
+  boostMultiplier: 2
+  maxStamina: 5
+  staminaDrainRate: 2
+  staminaRegenRate: 1.5
+  dashSpeed: 20
+  dashDuration: 0.25
+  dashCooldown: 2
 --- !u!114 &677276225960191907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,70 +193,6 @@ MonoBehaviour:
     m_ActionId: 641cd816-40e6-41b4-8c3d-04687c349290
     m_ActionName: 'Player/Sprint[/Keyboard/leftShift]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1741139479086186886}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnShoot_Left
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 06020fe2-4edb-467a-9ba0-27162c04ce0e
-    m_ActionName: 'Player/Shoot_Left[/Keyboard/leftArrow]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1741139479086186886}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnShoot_Right
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 7bbbf5ad-f0c2-4ba1-8c8e-6f4abb35606b
-    m_ActionName: 'Player/Shoot_Right[/Keyboard/rightArrow]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1741139479086186886}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnShoot_Under
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 5d398816-20f9-4ab4-aaa5-5ff51c3c134b
-    m_ActionName: 'Player/Shoot_Under[/Keyboard/downArrow]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1741139479086186886}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnShoot_Above
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 89a94cc0-727d-40a5-bf82-1d7523b097d7
-    m_ActionName: 'Player/Shoot_Above[/Keyboard/upArrow]'
-  - m_PersistentCalls:
       m_Calls: []
     m_ActionId: c95b2375-e6d9-4b88-9c4c-c5e76515df4b
     m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
@@ -292,6 +232,30 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 49b16d5e-21de-4325-9c44-b17ad7f2ffcc
+    m_ActionName: 'Player/Shoot_Left[/Keyboard/leftArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: abb4dad8-8dc2-4791-ba25-9ea33101fb23
+    m_ActionName: 'Player/Shoot_Right[/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 254ec579-19b0-4771-9e25-d14e5ebad63a
+    m_ActionName: 'Player/Shoot_Above[/Keyboard/upArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f867d8cc-935a-4c04-aa75-9b4f637b6a64
+    m_ActionName: 'Player/Shoot_Under[/Keyboard/downArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5db264b8-a99c-4036-a021-bd3033d5979c
+    m_ActionName: 'Player/Boost[/Keyboard/leftShift]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 22afc85e-6db5-41ba-82a3-201a860f80ba
+    m_ActionName: 'Player/Dash[/Keyboard/space]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: 
