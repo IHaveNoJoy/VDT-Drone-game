@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7618084951716709282}
   - component: {fileID: 1305031785572654797}
-  - component: {fileID: 3516859618290593624}
-  - component: {fileID: 7969949585925906427}
+  - component: {fileID: -9099590746532495162}
+  - component: {fileID: 4317497348169031979}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: BigShotBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.9716981, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.972549, g: 0, b: 0.5691884, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -93,7 +93,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &3516859618290593624
+--- !u!114 &-9099590746532495162
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -110,7 +110,7 @@ MonoBehaviour:
   lifeSpan: 5
   size: 1
   armingTime: 0.05
---- !u!61 &7969949585925906427
+--- !u!61 &4317497348169031979
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,7 +144,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.013132662}
+  m_Offset: {x: 0, y: 0.0043773353}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -154,5 +154,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.886182}
+  m_Size: {x: 1, y: 0.8599166}
   m_EdgeRadius: 0

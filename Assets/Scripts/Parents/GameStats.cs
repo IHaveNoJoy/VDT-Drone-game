@@ -3,8 +3,8 @@ using UnityEngine;
 public class GameStats : MonoBehaviour
 {
     public string Name;
-    public int MaxHp;
-    public int CurrentHP;
+    public float MaxHp;
+    public float CurrentHP;
     private bool IsDead;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     virtual public void Start()
@@ -22,7 +22,7 @@ public class GameStats : MonoBehaviour
         }
     }
 
-    virtual public void GetDamage(int Damage)
+    virtual public void GetDamage(float Damage)
     {
         CurrentHP -= Damage;
     }

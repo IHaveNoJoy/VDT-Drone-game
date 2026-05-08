@@ -3,20 +3,21 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [Header("Settings")]
-    public int damage = 10;
+    public float damage = 10;
     public float speed = 20f;
     public float lifeSpan = 5f;
+    public float size = 1f;
 
     [Header("Arming Logic")]
     [SerializeField] private float armingTime = 0.25f;
     private float timeElapsed = 0f;
 
-    protected virtual void Start()
+    public virtual void Start()
     {
         Destroy(gameObject, lifeSpan);
     }
 
-    protected virtual void Update()
+    public virtual void Update()
     {
         // Track how long the bullet has been alive
         timeElapsed += Time.deltaTime;
