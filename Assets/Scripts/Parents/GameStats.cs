@@ -6,17 +6,16 @@ public class GameStats : MonoBehaviour
     public int MaxHp;
     public int CurrentHP;
     private bool IsDead;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     virtual public void Start()
     {
         CurrentHP = MaxHp;
         IsDead = false;
     }
 
-    // Update is called once per frame
     virtual public void Update()
     {
-        if (IsDead)
+        if (IsDeath())
         {
             Kill();
         }
@@ -25,16 +24,22 @@ public class GameStats : MonoBehaviour
     virtual public void GetDamage(int Damage)
     {
         CurrentHP -= Damage;
+        Debug.Log(Name + " took damage! Current HP: " + CurrentHP);
     }
 
     virtual public bool IsDeath()
     {
-        if (CurrentHP <= 0 && !IsDead) { IsDead = true; return true; }
+        if (CurrentHP <= 0 && !IsDead)
+        {
+            IsDead = true;
+            return true;
+        }
         return false;
     }
 
     virtual public void Kill()
     {
-        Destroy(this);
+        Debug.Log(Name + " is being destroyed!");
+        Destroy(gameObject);
     }
 }
