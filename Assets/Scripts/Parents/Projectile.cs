@@ -3,47 +3,45 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [Header("Settings")]
-    public float damage = 10;
+    public int damage = 10;
     public float speed = 20f;
     public float lifeSpan = 5f;
-    public float size = 1f;
 
-    [Header("Ownership")]
-    public GameStats owner;
+    [Header("Arming Logic")]
+    [SerializeField] private float armingTime = 0.25f;
+    private float timeElapsed = 0f;
 
-    public virtual void Start()
+    protected virtual void Start()
     {
         Destroy(gameObject, lifeSpan);
     }
 
-    public virtual void Update()
+    protected virtual void Update()
     {
+        // Track how long the bullet has been alive
+        timeElapsed += Time.deltaTime;
+
+        // Standard movement
         transform.Translate(Vector2.right * speed * Time.deltaTime);
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerStay2D(Collider2D collision)
     {
-        if (!collision.TryGetComponent<GameStats>(out GameStats stats))
-            return;
+        if (collision == null) return;
 
-        // Ignore the owner (this already exists but keep it)
-        if (stats == owner)
-            return;
+        // 1. Wait until armed
+        if (timeElapsed < armingTime) return;
 
-        // EXTRA SAFETY: prevent hitting same "type"
-        if (owner is PlayerController && stats is PlayerController)
-            return;
-
-        if (owner is EnemyController && stats is EnemyController)
-            return;
-
-        // ✅ valid hit
-        stats.GetDamage(damage);
-        HitTarget();
+        // 2. Once armed, check for stats
+        if (collision.TryGetComponent<GameStats>(out GameStats stats))
+        {
+            stats.GetDamage(damage);
+            HitTarget();
+        }
     }
 
     protected virtual void HitTarget()
     {
-        Destroy(gameObject);
+        Destroy(this.gameObject);
     }
 }
