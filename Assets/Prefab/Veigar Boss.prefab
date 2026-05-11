@@ -307,12 +307,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7326912199274899383, guid: eddd2773d49f79b47a1992d9e5a8c526, type: 3}
+  m_Sprite: {fileID: -9095717837082945937, guid: 4788ddd57b0c5ae48b6d8da2a65349cb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.85, y: 5.47}
+  m_Size: {x: 1, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -332,6 +332,7 @@ MonoBehaviour:
   Name: Veigar
   MaxHp: 1000
   CurrentHP: 1000
+  healthBar: {fileID: -8491913890769402825, guid: 1a8df114625e0d844b3d9a6256dc957f, type: 3}
   hoverSpeed: 2
   hoverAmount: 1
   laserBattery:
@@ -382,8 +383,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.85, y: 5.47}
-    newSize: {x: 3.85, y: 5.47}
+    oldSize: {x: 1, y: 2}
+    newSize: {x: 1, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0

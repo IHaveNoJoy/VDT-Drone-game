@@ -29,7 +29,7 @@ public class BigShotDrone : PlayerController
         if ((shootInput.action.WasReleasedThisFrame() && isPlayer1) ||
             (!isPlayer1 && Input.GetKeyUp(shoot)))
         {
-            if (bullet.CanIShoot()) { SpawnProjectile(shootAngle, shootPoint); }
+            if (bullet.CanIShoot()) { SpawnProjectile(shootAngle); }
             bullet.ResetBullet();
         }
     }

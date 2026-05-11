@@ -141,18 +141,6 @@ public class PlayerController : GameStats
         Instantiate(projectilePrefab, spawnPos, rotation);
     }
 
-    public virtual void SpawnProjectile(float angle, Transform shootingpoint)
-    {
-        if (Time.time < nextFireTime || projectilePrefab == null) return;
-
-        nextFireTime = Time.time + fireRate;
-
-        Vector3 spawnPos = shootPoint != null ? shootPoint.position : transform.position;
-        Quaternion rotation = Quaternion.Euler(0, 0, angle);
-
-        Instantiate(projectilePrefab, spawnPos, rotation);
-    }
-
     public override void Kill()
     {
         Debug.Log("Drone Destroyed!");
