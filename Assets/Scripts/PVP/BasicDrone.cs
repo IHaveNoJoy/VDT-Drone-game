@@ -14,6 +14,7 @@ public class BasicDrone : PlayerController
 
     public KeyCode aimUp;
     public KeyCode aimDown;
+    
 
     public override void Update()
     {
@@ -24,7 +25,7 @@ public class BasicDrone : PlayerController
         {
             int newAngle = 0;
             if (!isPlayer1) { newAngle = -180; }
-            SpawnProjectile(shootAngle + newAngle, shootPoint);
+            SpawnProjectile(shootAngle + newAngle);
         }
     }
 

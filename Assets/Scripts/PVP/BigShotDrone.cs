@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,20 +44,28 @@ public class BigShotDrone : PlayerController
         }
     }
 
-    public override void SpawnProjectile(float angle, Transform pos)
+    public override void SpawnProjectile(float angle)
     {
-        // 1. Cooldown Check: Ensures the input system doesn't jam if multiple directions are hit
+        // 1. Cooldown & Essential Null Checks
         if (Time.time < nextFireTime) return;
-        if (projectilePrefab == null) return;
+        if (projectilePrefab == null || bullet == null) return;
 
         nextFireTime = Time.time + fireRate;
 
-        // 2. Spawn Logic
-        Vector3 spawnPos = pos != null ? pos.position : transform.position;
+        // 2. Spawn Logic (Now uses transform.position directly)
+        Vector3 spawnPos = transform.position;
         Quaternion rotation = Quaternion.Euler(0, 0, angle);
 
         GameObject obj = Instantiate(projectilePrefab, spawnPos, rotation);
-        obj.GetComponent<Projectile>().damage = bullet.currentDamage;
+
+        // 3. Component Setup
+        Projectile proj = obj.GetComponent<Projectile>();
+        if (proj != null)
+        {
+            proj.damage = Convert.ToInt32(bullet.currentDamage);
+        }
+
+        // Apply scale based on bullet stats
         obj.transform.localScale *= bullet.currentSize;
     }
 

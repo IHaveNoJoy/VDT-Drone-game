@@ -55,20 +55,24 @@ public class ChargerDrone : PlayerController
         {
             yield return new WaitForSeconds(shootSpeed);
             if (bullets[i].CanIBeShot()){
-                SpawnProjectile(bullets[i].angle, bullets[i].transform);
+                SpawnProjectile(bullets[i].angle);
                 bullets[i].ResetCharge();
             }
         }
 
     }
 
-    public override void SpawnProjectile(float angle, Transform pos)
+    public override void SpawnProjectile(float angle)
     {
-        // Spawn Logic
-        Vector3 spawnPos = pos != null ? pos.position : transform.position;
+        // 1. Simplified Spawn Logic: Defaults directly to the object's current position
+        Vector3 spawnPos = transform.position;
         Quaternion rotation = Quaternion.Euler(0, 0, angle);
 
-        Instantiate(projectilePrefab, spawnPos, rotation);
+        // 2. Instantiate the projectile
+        if (projectilePrefab != null)
+        {
+            Instantiate(projectilePrefab, spawnPos, rotation);
+        }
     }
 
 
