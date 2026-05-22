@@ -127,8 +127,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GravitationalBullet
   damage: 10
-  speed: 5
-  lifeSpan: 10
+  speed: 10
+  lifeSpan: 20
   armingTime: 0.25
   targetTag: Player
   hitRadius: 0.3

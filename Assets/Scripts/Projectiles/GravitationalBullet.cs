@@ -7,7 +7,7 @@ public class GravitationalBullet : Projectile
     [Header("AR Targeting Settings")]
     public string targetTag = "zero";
     public float hitRadius = 0.3f;
-    public string[] explodeOnTags = { "Player", "Projectile" };
+    public string[] explodeOnTags = { "Player", "Projectiles" };
     public LayerMask hitLayers = ~0;
 
     [Header("Invisible Sphere (Gravity) Settings")]
