@@ -18,7 +18,7 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject, lifeSpan);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         // Track how long the bullet has been alive
         timeElapsed += Time.deltaTime;
@@ -30,11 +30,16 @@ public class Projectile : MonoBehaviour
     // Changed to 3D Physics (Collider instead of Collider2D)
     protected virtual void OnTriggerStay(Collider collision)
     {
-        if (other.TryGetComponent<GameStats>(out GameStats stats))
+        if (collision == null) return;
+
+        // 1. Wait until armed
+        if (timeElapsed < armingTime) return;
+
+        // 2. Once armed, check for stats
+        if (collision.TryGetComponent<GameStats>(out GameStats stats))
         {
             stats.GetDamage(damage);
-
-            Destroy(gameObject);
+            HitTarget();
         }
     }
 
