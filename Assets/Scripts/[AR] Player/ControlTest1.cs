@@ -3,13 +3,14 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.XR;
 
-public class ControlTest1 : MonoBehaviour
+public class ControlTest1 : GameStats
 {
     public GameObject obj;
     public Vector2 moveVector;
     public Transform t;
     public float moveY;
     public float movementSpeed;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,7 +21,6 @@ public class ControlTest1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
 
         //Thumbstick
         moveVector = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
