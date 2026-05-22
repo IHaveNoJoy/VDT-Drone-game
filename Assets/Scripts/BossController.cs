@@ -4,27 +4,33 @@ using System.Collections.Generic;
 
 public class BossController : GameStats
 {
-    [Header("Movement")]
-    public float hoverSpeed = 2f;
-    public float hoverAmount = 1f;
-    private Vector3 startPos;
+    [Header("Predictable Arena Bounds (3D Cube)")]
+    private Vector3 zoneCenter;
+    public Vector3 zoneSize = new Vector3(10f, 5f, 5f);
+    public float movementSpeed = 3f;
+    public float timeSpentAtPosition = 1.5f;
 
-    [Header("Laser Battery")]
-    public List<LaserController> laserBattery; // Drag all standard lasers here
-    public float timeBetweenLasers = 0.5f;
-    public float attackCooldown = 3.0f; // NEW: How long the boss waits before firing the sequence again
+    [Header("Mana Economy")]
+    public float maxMana = 100f;
+    public float currentMana = 30f;
+    public float manaRegenRate = 5f;
 
-    [Header("Special Trap")]
-    public LaserController specialLaser; // The one triggered by the collider
-    public BoxCollider2D trapTrigger;    // The "Special Box Collider"
+    [Header("AI Logic & Cooldowns")]
+    [Tooltip("How long the boss rests/thinks after executing ANY attack.")]
+    public float globalAttackCooldown = 2.5f;
+
+    [Tooltip("Drag your ScriptableObject attack assets directly into this list!")]
+    public List<BossAttack> attackPool;
+
+    private Vector3 targetPosition;
+    private bool isMovingToPosition = false;
 
     public override void Start()
     {
         base.Start();
-        startPos = transform.position;
-
-        // NEW: Start the automatic attack loop when the boss spawns
-        StartCoroutine(BossAttackLoop());
+        zoneCenter = transform.position;
+        StartCoroutine(MovementLoop());
+        StartCoroutine(AIBrainLoop());
     }
 
     public override void Update()
@@ -33,69 +39,117 @@ public class BossController : GameStats
 
         if (CurrentHP > 0)
         {
-            HoverMovement();
+            RegenerateMana();
         }
     }
 
-    private void HoverMovement()
+    private void RegenerateMana()
     {
-        float newY = startPos.y + Mathf.Sin(Time.time * hoverSpeed) * hoverAmount;
-        transform.position = new Vector3(startPos.x, newY, startPos.z);
-    }
-
-    // NEW: The continuous loop that makes the boss attack automatically
-    private IEnumerator BossAttackLoop()
-    {
-        // Wait a brief moment before the first attack so the player can get ready
-        yield return new WaitForSeconds(1f);
-
-        while (CurrentHP > 0) // Keep looping as long as the boss is alive
+        if (currentMana < maxMana)
         {
-            yield return StartCoroutine(LaserSequenceRoutine()); // Wait for the firing sequence to finish
-            yield return new WaitForSeconds(attackCooldown);     // Wait for the cooldown
+            currentMana += manaRegenRate * Time.deltaTime;
+            currentMana = Mathf.Min(currentMana, maxMana);
         }
     }
 
-    public void FireAllLasers()
-    {
-        StartCoroutine(LaserSequenceRoutine());
-    }
+    #region Predictable Movement Logic
 
-    private IEnumerator LaserSequenceRoutine()
+    private IEnumerator MovementLoop()
     {
-        foreach (LaserController laser in laserBattery)
+        targetPosition = GetRandomPointInZone();
+
+        while (CurrentHP > 0)
         {
-            if (laser != null)
+            isMovingToPosition = true;
+
+            while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
             {
-                laser.FireLaser();
-                yield return new WaitForSeconds(timeBetweenLasers);
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
+                yield return null;
+            }
+
+            isMovingToPosition = false;
+            yield return new WaitForSeconds(timeSpentAtPosition);
+            targetPosition = GetRandomPointInZone();
+        }
+    }
+
+    private Vector3 GetRandomPointInZone()
+    {
+        Vector3 minBounds = zoneCenter - (zoneSize / 2f);
+        Vector3 maxBounds = zoneCenter + (zoneSize / 2f);
+
+        return new Vector3(
+            Random.Range(minBounds.x, maxBounds.x),
+            Random.Range(minBounds.y, maxBounds.y),
+            Random.Range(minBounds.z, maxBounds.z)
+        );
+    }
+
+    #endregion
+
+    #region Intelligent Tactical Loop
+
+    private IEnumerator AIBrainLoop()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        while (CurrentHP > 0)
+        {
+            List<BossAttack> affordableAttacks = new List<BossAttack>();
+
+            // Filter attacks based on current mana availability
+            foreach (BossAttack attack in attackPool)
+            {
+                if (attack != null && attack.manaCost <= currentMana)
+                {
+                    affordableAttacks.Add(attack);
+                }
+            }
+
+            if (affordableAttacks.Count > 0)
+            {
+                // Select an affordable attack asset at random
+                BossAttack chosenAttack = affordableAttacks[Random.Range(0, affordableAttacks.Count)];
+
+                currentMana -= chosenAttack.manaCost;
+
+                // Pass 'this' boss instance context into the attack execution
+                chosenAttack.Execute(this);
+
+                yield return new WaitForSeconds(globalAttackCooldown);
+            }
+            else
+            {
+                // Wait briefly before re-checking mana resources
+                yield return new WaitForSeconds(0.5f);
             }
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            if (specialLaser != null)
-            {
-                Debug.Log("Boss: TRAP ACTIVATED!");
-                specialLaser.FireLaser();
-            }
-        }
-    }
+    #endregion
 
     public override void Kill()
     {
         Debug.Log("Boss Defeated!");
-        // Stop all coroutines so the boss stops shooting when it dies
         StopAllCoroutines();
         base.Kill();
     }
 
-    public override void GetDamage(int Damage)
+    private void OnDrawGizmosSelected()
     {
-        Debug.Log($"Boss took damage {Damage}");
-        base.GetDamage(Damage);
+        if (!Application.isPlaying)
+        {
+            zoneCenter = transform.position;
+        }
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireCube(zoneCenter, zoneSize);
+
+        if (Application.isPlaying)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position, targetPosition);
+            Gizmos.DrawSphere(targetPosition, 0.4f);
+        }
     }
 }
