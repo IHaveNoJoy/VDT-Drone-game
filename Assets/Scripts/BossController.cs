@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class BossController : GameStats
 {
     [Header("Predictable Arena Bounds (3D Cube)")]
-    public Vector3 zoneCenter;
+    private Vector3 zoneCenter;
     public Vector3 zoneSize = new Vector3(10f, 5f, 5f);
     public float movementSpeed = 3f;
     public float timeSpentAtPosition = 1.5f;
@@ -28,6 +28,7 @@ public class BossController : GameStats
     public override void Start()
     {
         base.Start();
+        zoneCenter = transform.position;
         StartCoroutine(MovementLoop());
         StartCoroutine(AIBrainLoop());
     }
@@ -137,6 +138,10 @@ public class BossController : GameStats
 
     private void OnDrawGizmosSelected()
     {
+        if (!Application.isPlaying)
+        {
+            zoneCenter = transform.position;
+        }
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireCube(zoneCenter, zoneSize);
 

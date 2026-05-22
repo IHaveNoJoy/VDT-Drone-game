@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 485f5815b21488641ac084af83b52365, type: 3}
   m_Name: GravityBullet
   m_EditorClassIdentifier: Assembly-CSharp::ShootProjectileAttack
-  attackName: New Boss Attack
+  attackName: GravityBullet
   manaCost: 20
-  projectilePrefab: {fileID: 0}
+  projectilePrefab: {fileID: 3252349388681138894, guid: e1e459231fd86c440ac3d7f0632b2bb3, type: 3}
   damageOverride: 0
   speedOverride: 0
   targetTag: Player
