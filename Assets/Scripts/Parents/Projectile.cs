@@ -2,17 +2,19 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [Header("Settings")]
+    [Header("Base Projectile Settings")]
     public int damage = 10;
     public float speed = 20f;
     public float lifeSpan = 5f;
 
     [Header("Arming Logic")]
-    [SerializeField] private float armingTime = 0.25f;
-    private float timeElapsed = 0f;
+    [SerializeField] protected float armingTime = 0.25f;
+    protected float timeElapsed = 0f;
 
+    // Use 'protected virtual' so child scripts can override or add to these!
     protected virtual void Start()
     {
+        // Automatically destroy after lifeSpan ends
         Destroy(gameObject, lifeSpan);
     }
 
@@ -21,11 +23,12 @@ public class Projectile : MonoBehaviour
         // Track how long the bullet has been alive
         timeElapsed += Time.deltaTime;
 
-        // Standard movement
-        transform.Translate(Vector2.right * speed * Time.deltaTime);
+        // Standard 3D movement forward
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
-    protected virtual void OnTriggerStay2D(Collider2D collision)
+    // Changed to 3D Physics (Collider instead of Collider2D)
+    protected virtual void OnTriggerStay(Collider collision)
     {
         if (collision == null) return;
 
@@ -42,6 +45,6 @@ public class Projectile : MonoBehaviour
 
     protected virtual void HitTarget()
     {
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }

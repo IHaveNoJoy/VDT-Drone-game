@@ -88,15 +88,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shoot_Left",
-                    "type": "Button",
-                    "id": "49b16d5e-21de-4325-9c44-b17ad7f2ffcc",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Shoot_Right",
                     "type": "Button",
                     "id": "abb4dad8-8dc2-4791-ba25-9ea33101fb23",
@@ -106,18 +97,54 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shoot_Above",
+                    "name": "Shoot_Angle_Down",
                     "type": "Button",
-                    "id": "254ec579-19b0-4771-9e25-d14e5ebad63a",
+                    "id": "b5e8216d-6a0f-4c00-b031-d8c6e15e509b",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shoot_Under",
+                    "name": "Shoot_Angle_Up",
                     "type": "Button",
-                    "id": "f867d8cc-935a-4c04-aa75-9b4f637b6a64",
+                    "id": "4e408d8f-31f4-4bb1-b1ba-17d124b4c1d2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Boost",
+                    "type": "Button",
+                    "id": "5db264b8-a99c-4036-a021-bd3033d5979c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "22afc85e-6db5-41ba-82a3-201a860f80ba",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Shoot_Sniper",
+                    "type": "Button",
+                    "id": "7bd17489-79e1-4d63-aca3-2f094a5c577f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Drop_Bomb",
+                    "type": "Button",
+                    "id": "81dc8bb9-0d83-4cd2-8682-b32933aafe1f",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -468,30 +495,8 @@
                 },
                 {
                     "name": "",
-                    "id": "340eeb3e-6f58-4659-b867-2bb2baa5ff49",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Shoot_Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "51bb27bb-66cd-41f1-a1f1-d13d60a1ab57",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Shoot_Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "5f2731b5-92d2-400e-820d-d3ec7b663b65",
-                    "path": "<Keyboard>/rightArrow",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -501,56 +506,78 @@
                 },
                 {
                     "name": "",
-                    "id": "feac695a-1f33-4672-9d84-51a1af4c8fe6",
-                    "path": "<Gamepad>/buttonEast",
+                    "id": "2b4711d1-d799-4a9b-ba80-d1287e5870b2",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": ";Keyboard&Mouse",
                     "action": "Shoot_Right",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "238a54b0-ece9-484d-a6a6-3c250ce00042",
-                    "path": "<Keyboard>/upArrow",
+                    "id": "ee4a6812-c91c-450f-88d6-20398619a496",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Shoot_Above",
+                    "action": "Shoot_Angle_Down",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "73a59d6b-18b0-469f-98d1-d2ad9f1c072b",
-                    "path": "<Gamepad>/buttonNorth",
+                    "id": "46a5cb71-c7a2-4587-88e3-2ac009bcd0b4",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Shoot_Above",
+                    "groups": ";Keyboard&Mouse;Gamepad",
+                    "action": "Shoot_Angle_Up",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "a49914f5-4a0e-4a4c-8aac-b4c8116c73e3",
-                    "path": "<Keyboard>/downArrow",
+                    "id": "0b961fac-83b3-4cbe-92f1-bb172b268e5b",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Shoot_Under",
+                    "action": "Boost",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "c6ab021f-19d1-44d7-a184-df42c027a7fe",
-                    "path": "<Gamepad>/buttonSouth",
+                    "id": "e61ab1b6-c8fd-4ebf-b3da-23da6f823ac4",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Shoot_Under",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "76764feb-d543-4663-9520-a3fd3dedd1e5",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Shoot_Sniper",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9ba9c87-9463-4c0e-a823-5758bde0d5f4",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Drop_Bomb",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
