@@ -13,23 +13,18 @@ public class PlayerController : GameStats
     [SerializeField] private Transform targetBox;
 
     [Header("Flight Physics")]
-    [SerializeField] private float thrustPower = 15f;
-    [SerializeField] private float artificialDrag = 3f;
-    [SerializeField] private float maxSpeed = 12f;
+    [SerializeField] private float thrustPower = 15f;      // How hard the drone tries to reach the target
+    [SerializeField] private float artificialDrag = 3f;    // Braking power / air resistance
+    [SerializeField] private float maxSpeed = 12f;         // Terminal velocity
 
     [Header("Shooting Settings")]
-    [SerializeField] public GameObject projectilePrefab;
-    [SerializeField] public Transform shootPoint;
-    [SerializeField] public float fireRate = 0.15f;
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private Transform shootPoint;
+    [SerializeField] private float fireRate = 0.15f;
     public LaserController myLaser;
 
-    public float nextFireTime;
-    public Rigidbody2D rb;
-
-    //legacy
-    public bool isPlayer1;
-    public bool isPlayer2;
-    public KeyCode shoot;
+    private float nextFireTime;
+    private Rigidbody2D rb;
 
     private void Awake()
     {
@@ -50,7 +45,7 @@ public class PlayerController : GameStats
         base.Update();
     }
 
-    public virtual void FixedUpdate()
+    private void FixedUpdate()
     {
         // --- 1. NETWORK MODE: PHYSICAL DRONE CHECK ---
         if (WSHost.Instance != null && WSHost.Instance.HasData(droneNetworkKey))
@@ -104,32 +99,32 @@ public class PlayerController : GameStats
 
     // --- SHOOTING & HEALTH LOGIC (Unchanged) --- //
 
-    public virtual void OnShoot_Left(InputValue value)
+    public void OnShoot_Left(InputValue value)
     {
         if (value.isPressed) SpawnProjectile(180f);
     }
 
-    public virtual void OnShoot_Right(InputValue value)
+    public void OnShoot_Right(InputValue value)
     {
         if (value.isPressed) SpawnProjectile(0f);
     }
 
-    public virtual void OnShoot_Above(InputValue value)
+    public void OnShoot_Above(InputValue value)
     {
         if (value.isPressed) SpawnProjectile(90f);
     }
 
-    public virtual void OnShoot_Under(InputValue value)
+    public void OnShoot_Under(InputValue value)
     {
         if (value.isPressed) SpawnProjectile(-90f);
     }
 
-    public virtual void OnFireLaser(InputValue value)
+    public void OnFireLaser(InputValue value)
     {
         myLaser.FireLaser();
     }
 
-    public virtual void SpawnProjectile(float angle)
+    private void SpawnProjectile(float angle)
     {
         if (Time.time < nextFireTime || projectilePrefab == null) return;
 
