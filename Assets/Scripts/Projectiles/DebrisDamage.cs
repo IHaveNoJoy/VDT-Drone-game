@@ -8,63 +8,82 @@ public class DebrisDamage : MonoBehaviour
     [Tooltip("The object must be moving at least this fast to hurt someone.")]
     public float minVelocityToDamage = 3f;
 
-    [Tooltip("The maximum damage this object can possibly do (prevents physics glitches from instantly killing bosses).")]
+    [Tooltip("The maximum damage this object can possibly do.")]
     public int maxDamageCap = 100;
 
-    [Tooltip("Tags that this debris will NOT damage (e.g., Player, Projectile).")]
-    public string[] safeTags = { "Projectile" };
+    [Tooltip("Tags that this debris will NOT damage.")]
+    public string[] safeTags = { "Player", "Projectile" };
 
     private Rigidbody rb;
+    private bool initialized = false;
 
-    void Start()
+    // We use Awake instead of Start to bind the Rigidbody instantly when added!
+    void Awake()
     {
+        // Try finding Rigidbody on this object, or up on its parent structure
         rb = GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            rb = GetComponentInParent<Rigidbody>();
+        }
 
-        // Remove this script after 10 seconds so the debris becomes harmless again
-        Destroy(this, 10f);
+        // Failsafe cleanup: Remove this component after 12 seconds of floating around
+        Destroy(this, 12f);
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        if (rb == null) return;
-
-        // Get the speed of the object at the exact moment of impact
-        float impactSpeed = rb.linearVelocity.magnitude;
-
-        // 1. If it's barely moving, don't deal damage
-        if (impactSpeed < minVelocityToDamage)
+        // If we still can't find a physics body, this object can't calculate impact speed.
+        if (rb == null)
         {
+            Debug.LogWarning($"[DebrisDamage] {gameObject.name} has no Rigidbody found on self or parents. Removing script.");
+            Destroy(this);
             return;
         }
 
-        // 2. Check if the object we hit is on the "Safe" list
+        // Use linearVelocity for Unity 2022.2+ or velocity for older versions
+        float impactSpeed = rb.linearVelocity.magnitude;
+
+        // 1. Comprehensive Tag Filter: Abort if we hit a protected entity
         foreach (string tag in safeTags)
         {
-            if (collision.gameObject.CompareTag(tag))
+            if (collision.gameObject.CompareTag(tag) || collision.transform.root.CompareTag(tag))
             {
-                return; // Stop the code, do no damage
+                return; // Ignore players/projectiles entirely, but KEEP the script active!
             }
         }
 
-        // 3. If it hit an enemy, calculate the scaled damage!
-        if (collision.gameObject.TryGetComponent<GameStats>(out GameStats stats))
+        // 2. Minimum speed filter
+        if (impactSpeed < minVelocityToDamage)
         {
-            // The Math: If it hits at exactly the minimum speed, it does 1x damage. 
-            // If it hits at double the minimum speed, it does 2x damage, etc.
+            return; // Moving too slow, but KEEP the script active for later impacts!
+        }
+
+        // 3. Attempt to fetch GameStats from the target
+        GameStats stats = collision.gameObject.GetComponent<GameStats>();
+        if (stats == null)
+        {
+            stats = collision.gameObject.GetComponentInParent<GameStats>();
+        }
+
+        // 4. Hit Target Successfully!
+        if (stats != null)
+        {
             float speedMultiplier = impactSpeed / minVelocityToDamage;
             int scaledDamage = Mathf.RoundToInt(damageAmount * speedMultiplier);
-
-            // Enforce the damage cap so it doesn't break your game balance
             int finalDamage = Mathf.Clamp(scaledDamage, 0, maxDamageCap);
 
-            // Deal the damage
             stats.GetDamage(finalDamage);
 
-            // Log it so you can see the speed and damage in the console!
-            Debug.Log($"{gameObject.name} smashed into {collision.gameObject.name} at {impactSpeed:F1}m/s for {finalDamage} damage!");
+            Debug.Log($"💥 [DEBRIS HIT] {gameObject.name} smashed {collision.gameObject.name} at {impactSpeed:F1} m/s for {finalDamage} damage!");
 
-            // Optional: Destroy the debris after it hits an enemy so it shatters
-            // Destroy(gameObject); 
+            // Self-destruct the script component now that it has successfully hit an enemy
+            Destroy(this);
+        }
+        else
+        {
+             Debug.Log($"{gameObject.name} hit environment ({collision.gameObject.name}) and lost its charge.");
+             Destroy(this);
         }
     }
 }

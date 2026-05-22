@@ -55,7 +55,7 @@ public class GravitationalBullet : Projectile
         {
             Debug.Log("Failsafe Triggered: Speed reached zero. Forcing Explosion!");
             HitTarget();
-            return; // Exit out of the Update loop early so it doesn't try to calculate movement
+            return;
         }
 
         if (isMoving)
@@ -71,7 +71,6 @@ public class GravitationalBullet : Projectile
                 transform.position += transform.forward * moveDistance;
             }
 
-            // Custom AR Headset proximity check
             if (targetTransform != null)
             {
                 float distanceToTarget = Vector3.Distance(transform.position, targetTransform.position);
@@ -97,14 +96,17 @@ public class GravitationalBullet : Projectile
 
     private void PullNearbyObjects()
     {
+        // Find everything in the pull radius
         Collider[] collidersToPull = Physics.OverlapSphere(transform.position, pullRadius, pullableLayers);
 
         foreach (Collider col in collidersToPull)
         {
+            // Skip the bullet itself
             if (col.gameObject == gameObject) continue;
 
             Rigidbody targetRb = col.GetComponent<Rigidbody>();
 
+            // Only pull and modify objects that actually have physics (Rigidbodies)
             if (targetRb != null)
             {
                 Vector3 directionToBullet = transform.position - col.transform.position;
@@ -115,11 +117,31 @@ public class GravitationalBullet : Projectile
                     Vector3 pullDirection = directionToBullet.normalized;
                     targetRb.AddForce(pullDirection * currentPullForce, ForceMode.Acceleration);
 
-                    // Attach the script to the rubble!
-                    if (col.gameObject.GetComponent<DebrisDamage>() == null && !col.gameObject.CompareTag("Player"))
+                    // --- SAFE TAG LOGIC ---
+                    // Check if this specific object or its root belongs to a forbidden tag (Player/Projectile)
+                    bool isForbidden = false;
+                    foreach (string forbiddenTag in explodeOnTags)
                     {
-                        DebrisDamage deadlyScript = col.gameObject.AddComponent<DebrisDamage>();
-                        deadlyScript.damageAmount = this.damage;
+                        if (col.gameObject.CompareTag(forbiddenTag) || col.transform.root.CompareTag(forbiddenTag))
+                        {
+                            isForbidden = true;
+                            break;
+                        }
+                    }
+
+                    // If it is safe to weaponize and doesn't already have the script, add it!
+                    if (!isForbidden)
+                    {
+                        if (col.gameObject.GetComponent<DebrisDamage>() == null)
+                        {
+                            DebrisDamage deadlyScript = col.gameObject.AddComponent<DebrisDamage>();
+
+                            // Pass down parameters from the bullet
+                            deadlyScript.damageAmount = this.damage;
+                            deadlyScript.safeTags = explodeOnTags;
+
+                            Debug.Log($"Successfully weaponized debris: {col.gameObject.name}!");
+                        }
                     }
                 }
             }
@@ -141,17 +163,14 @@ public class GravitationalBullet : Projectile
 
         if (shouldExplode)
         {
-            // We removed the direct damage here, because the explosion will now handle hitting the targets!
             HitTarget();
         }
         else
         {
-            // Hit a normal wall, stick to it and keep pulling
             isMoving = false;
         }
     }
 
-    // This overrides the parent script to create the explosion before destroying!
     protected override void HitTarget()
     {
         Debug.Log("Bullet Exploded!");
@@ -159,53 +178,39 @@ public class GravitationalBullet : Projectile
         isPulling = false;
 
         TriggerExplosion();
-
-        // This runs the Destroy(gameObject) from the parent script
         base.HitTarget();
     }
 
     private void TriggerExplosion()
     {
-        // 1. Calculate the explosion radius (Half of the gravity pull radius)
         float explosionRadius = pullRadius / 2f;
-
-        // 2. Find everything inside the explosion
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius, hitLayers | pullableLayers);
-
-        // Keep a list of targets we already damaged so we don't hit a boss twice if it has two colliders (like arms and body)
         List<GameStats> damagedStats = new List<GameStats>();
 
         foreach (Collider col in hitColliders)
         {
             if (col.gameObject == gameObject) continue;
 
-            // --- PUSH DEBRIS AWAY ---
             Rigidbody targetRb = col.GetComponent<Rigidbody>();
             if (targetRb != null)
             {
-                // Unity has a built-in method just for this!
-                // ForceMode.Impulse creates an instant "bang" rather than a slow push
                 targetRb.AddExplosionForce(explosionForce, transform.position, explosionRadius, 3f, ForceMode.Impulse);
             }
 
-            // --- DEAL AREA DAMAGE ---
-            // We use GetComponentInParent just in case the raycast hits an arm, we want to damage the main body
             GameStats stats = col.GetComponentInParent<GameStats>();
             if (stats != null && !damagedStats.Contains(stats))
             {
                 stats.GetDamage(damage);
-                damagedStats.Add(stats); // Add them to the list so they don't get double-damaged
+                damagedStats.Add(stats);
             }
         }
     }
 
     private void OnDrawGizmosSelected()
     {
-        // Magenta for the Gravity Pull
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(transform.position, pullRadius);
 
-        // Red for the Explosion Impact Area (Half the size)
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, pullRadius / 2f);
     }
