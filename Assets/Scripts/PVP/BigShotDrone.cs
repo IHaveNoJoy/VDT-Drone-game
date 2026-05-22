@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class BigShotDrone : PlayerController
 {
-    public InputActionReference shootInput;
+    /*public InputActionReference shootInput;
     public float shootAngle = 0f;
 
     public BigShotBullet bullet;
@@ -84,5 +84,5 @@ public class BigShotDrone : PlayerController
     public override void OnShoot_Under(InputValue value)
     {
         return;
-    }
+    }*/
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ChargerDrone_Bullet : MonoBehaviour
 {
-    public float totalChargeTime = 100f;
+   /* public float totalChargeTime = 100f;
     public float currentCharge = 0f;
     public float chargeSpeed = 1f;
     public float angle = 0f;
@@ -61,5 +61,5 @@ public class ChargerDrone_Bullet : MonoBehaviour
         }
 
         sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, currentCharge/100);
-    }
+    }*/
 }

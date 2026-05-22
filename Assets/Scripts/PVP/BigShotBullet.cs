@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BigShotBullet : MonoBehaviour
 {
-    public float maxSize = 2.5f;
+    /*public float maxSize = 2.5f;
     public float maxDamage = 10f;
 
     public float currentSize = 0.5f;
@@ -65,5 +65,5 @@ public class BigShotBullet : MonoBehaviour
     {
         currentSize = minSize;
         currentDamage = minDamage;
-    }
+    }*/
 }

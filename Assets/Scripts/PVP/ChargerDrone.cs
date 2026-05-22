@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class ChargerDrone : PlayerController
 {
-    public InputActionReference shootInput;
+    /*public InputActionReference shootInput;
     public float shootAngle = 0f;
 
     public List<ChargerDrone_Bullet> shootPoints;
@@ -92,5 +92,5 @@ public class ChargerDrone : PlayerController
     public override void OnShoot_Under(InputValue value)
     {
         return;
-    }
+    }*/
 }

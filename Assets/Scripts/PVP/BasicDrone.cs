@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class BasicDrone : PlayerController
 {
-    public InputActionReference shootInput;
+    /*public InputActionReference shootInput;
     public float shootAngle = 0f;
 
     public InputActionReference angleUp;
@@ -64,5 +64,5 @@ public class BasicDrone : PlayerController
     public override void OnShoot_Under(InputValue value)
     {
         return;
-    }
+    }*/
 }
