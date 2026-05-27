@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShootProjectileAttack
   attackName: GravityBullet
   manaCost: 20
+  animationTrigger: GravityBullet
   projectilePrefab: {fileID: 3252349388681138894, guid: e1e459231fd86c440ac3d7f0632b2bb3, type: 3}
   damageOverride: 0
   speedOverride: 0

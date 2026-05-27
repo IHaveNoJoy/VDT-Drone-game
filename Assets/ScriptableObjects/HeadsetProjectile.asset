@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShootProjectileAttack
   attackName: Tomato attack
   manaCost: 20
+  animationTrigger: HeadsetProjectile
   projectilePrefab: {fileID: 8878968773574990587, guid: 92d567387d43d7640a2a2c6d8c64d632, type: 3}
   damageOverride: 0
   speedOverride: 0

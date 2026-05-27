@@ -6,6 +6,12 @@ public abstract class BossAttack : ScriptableObject
     public string attackName = "New Boss Attack";
     public int manaCost = 20;
 
-    /// <param name="boss">A reference to the boss executing it, allowing access to its transform/stats.</param>
+    [Header("Animation")]
+    public string animationTrigger;
+
+    // START attack (animation begins)
     public abstract void Execute(BossController boss);
+
+    // IMPACT moment (Animation Event triggers this)
+    public virtual void OnImpact(BossController boss) { }
 }
