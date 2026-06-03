@@ -7,63 +7,62 @@ public class TargetController : MonoBehaviour
     [SerializeField] private float moveSpeed = 15f;
 
     [Header("Tether Settings")]
-    [Tooltip("Drag the actual Drone GameObject here")]
-    // 1. CHANGED: We now ask specifically for the DroneController script, not just the Transform
+    [Tooltip("Drag the actual Drone (PlayerController) GameObject here")]
     [SerializeField] private PlayerController drone;
 
     [Tooltip("How far the target can get from the drone before it stops")]
     [SerializeField] private float maxRange = 8f;
 
-    private Vector2 moveInput;
+    private Vector2 horizontalInput;
+    private float heightInput;
 
+    // --- RE-ROUTED INPUT CALLBACKS ---
     public void OnMove(InputValue value)
     {
-        moveInput = value.Get<Vector2>();
+        horizontalInput = value.Get<Vector2>();
+        Debug.Log("I am moving: " + horizontalInput);
     }
 
-    // --- 2. NEW: The Target Box receives the inputs and passes them directly to the Drone ---
-
-    public void OnShoot_Left(InputValue value)
+    public void OnFlyHeight(InputValue value)
     {
-        if (drone != null) drone.OnShoot_Left(value);
+        heightInput = value.Get<float>();
+        Debug.Log("I am going up/down: " + heightInput);
     }
 
-    public void OnShoot_Right(InputValue value)
+    public void OnShoot(InputValue value)
     {
-        if (drone != null) drone.OnShoot_Right(value);
+        if (drone != null && value.isPressed)
+        {
+            drone.CommandFireLasers();
+        }
     }
 
-    public void OnShoot_Above(InputValue value)
+    public void OnShoot_Rockets(InputValue value)
     {
-        if (drone != null) drone.OnShoot_Above(value);
+        if (drone != null && value.isPressed)
+        {
+            drone.CommandFireRockets();
+        }
     }
-
-    public void OnShoot_Under(InputValue value)
-    {
-        if (drone != null) drone.OnShoot_Under(value);
-    }
-
-    public void OnFireLaser(InputValue value)
-    {
-        if (drone != null) drone.OnFireLaser(value);
-    }
-
-    // ----------------------------------------------------------------------------------------
 
     private void Update()
     {
-        // Move the target normally
-        transform.Translate(moveInput * moveSpeed * Time.deltaTime);
+        // 1. Calculate our intended movement vector in 3D space
+        Vector3 movement = new Vector3(horizontalInput.x, heightInput, horizontalInput.y);
 
-        // Enforce the maximum distance tether
-        if (drone != null)
+        // 2. Safely translate the target transform (No Rigidbody/Gravity needed)
+        transform.Translate(movement * moveSpeed * Time.deltaTime, Space.World);
+
+        // 3. Keep us within bounds of our flying drone
+        if (drone != null && drone.rb != null)
         {
-            // Because 'drone' is now a script reference, we have to add .transform to get its position
-            Vector2 offset = (Vector2)transform.position - (Vector2)drone.transform.position;
+            Vector3 dronePos = drone.rb.position;
+            Vector3 offset = transform.position - dronePos;
 
             if (offset.sqrMagnitude > maxRange * maxRange)
             {
-                transform.position = (Vector2)drone.transform.position + Vector2.ClampMagnitude(offset, maxRange);
+                Vector3 clampedOffset = Vector3.ClampMagnitude(offset, maxRange);
+                transform.position = dronePos + clampedOffset;
             }
         }
     }

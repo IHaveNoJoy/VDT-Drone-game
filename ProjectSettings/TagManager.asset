@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Props
   - Projectiles
+  - Bat
+  - Ball
   layers:
   - Default
   - TransparentFX
