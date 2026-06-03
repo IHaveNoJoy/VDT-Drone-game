@@ -8,6 +8,7 @@ TagManager:
   - Projectiles
   - Bat
   - Ball
+  - Drone
   layers:
   - Default
   - TransparentFX
