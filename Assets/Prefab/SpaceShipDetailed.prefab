@@ -79496,7 +79496,7 @@ MonoBehaviour:
   MaxHp: 100
   CurrentHP: 0
   droneNetworkKey: Drone1
-  targetBox: {fileID: 0}
+  targetBox: {fileID: 3908596980484027613}
   thrustPower: 150
   artificialDrag: 1
   maxSpeed: 100

@@ -27,12 +27,13 @@ public class LaserProjectile : Projectile
 
     protected override void HitTarget()
     {
+        Debug.LogWarning("projectile hit");
         Explode();
         base.HitTarget();
     }
 
     private void ExplodeAndDestroy()
-    {
+    {        
         Explode();
         Destroy(gameObject);
     }
