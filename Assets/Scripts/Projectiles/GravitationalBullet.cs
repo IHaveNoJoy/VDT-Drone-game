@@ -117,20 +117,6 @@ public class GravitationalBullet : Projectile
                     Vector3 pullDirection = directionToBullet.normalized;
                     targetRb.AddForce(pullDirection * currentPullForce, ForceMode.Acceleration);
 
-                    // --- SAFE TAG LOGIC ---
-                    // Check if this specific object or its root belongs to a forbidden tag (Player/Projectile)
-                    bool isForbidden = false;
-                    foreach (string forbiddenTag in explodeOnTags)
-                    {
-                        if (col.gameObject.CompareTag(forbiddenTag) || col.transform.root.CompareTag(forbiddenTag))
-                        {
-                            isForbidden = true;
-                            break;
-                        }
-                    }
-
-                    // If it is safe to weaponize and doesn't already have the script, add it!
-                    if (!isForbidden)
                     {
                         if (col.gameObject.GetComponent<DebrisDamage>() == null)
                         {
