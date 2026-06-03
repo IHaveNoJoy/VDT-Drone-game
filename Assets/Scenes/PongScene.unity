@@ -697,9 +697,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.18586957
+    y: 0.1652174
     width: 1
-    height: 0.62826085
+    height: 0.6695652
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -1357,6 +1357,10 @@ PrefabInstance:
     - target: {fileID: 1011177878195386630, guid: 5a10d588e17f39f4a8c177604e3553bd, type: 3}
       propertyPath: m_Name
       value: PlayerCube
+      objectReference: {fileID: 0}
+    - target: {fileID: 2598429779924455960, guid: 5a10d588e17f39f4a8c177604e3553bd, type: 3}
+      propertyPath: isFacingRight
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5587915798048827479, guid: 5a10d588e17f39f4a8c177604e3553bd, type: 3}
       propertyPath: m_LocalPosition.x

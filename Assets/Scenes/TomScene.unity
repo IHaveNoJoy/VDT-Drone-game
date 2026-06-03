@@ -6476,7 +6476,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5913937267953279927, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
       propertyPath: m_DefaultControlScheme
-      value: Keyboard&Mouse
+      value: Gamepad
       objectReference: {fileID: 0}
     - target: {fileID: 9148216814473819262, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
       propertyPath: moveSpeed
