@@ -5064,7 +5064,7 @@ SpriteRenderer:
   m_Size: {x: 5, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!120 &2856691727884046774
 LineRenderer:
@@ -5231,7 +5231,9 @@ MonoBehaviour:
   maxDistance: 30
   hitLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
+  deathZone: {fileID: 0}
+  widthMultiplier: 1
   laserHolder: {fileID: 4690846072854144974}
   beamLine: {fileID: 2856691727884046774}
   endParticles: {fileID: 3641387357096478881}

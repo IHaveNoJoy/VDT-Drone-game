@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : GameStats
 {
     [Header("Network Settings")]
@@ -13,127 +12,131 @@ public class PlayerController : GameStats
     [SerializeField] private Transform targetBox;
 
     [Header("Flight Physics")]
-    [SerializeField] private float thrustPower = 15f;      // How hard the drone tries to reach the target
-    [SerializeField] private float artificialDrag = 3f;    // Braking power / air resistance
-    [SerializeField] private float maxSpeed = 12f;         // Terminal velocity
+    [SerializeField] private float thrustPower = 15f;
+    [SerializeField] private float artificialDrag = 3f;
+    [SerializeField] private float maxSpeed = 12f;
 
-    [Header("Shooting Settings")]
-    [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private Transform shootPoint;
-    [SerializeField] private float fireRate = 0.15f;
-    public LaserController myLaser;
+    [Tooltip("Replaces Rigidbody2D's gravityScale to control how fast it falls off course")]
+    [SerializeField] private float customGravityScale = 0.5f;
 
-    private float nextFireTime;
-    private Rigidbody2D rb;
+    [Header("Legacy Shooting Settings")]
+    [SerializeField] public GameObject projectilePrefab;
+    [SerializeField] public Transform shootPoint;
+
+    [Header("Advanced Weapon Systems")]
+    [Tooltip("Prefab for your main laser bolts")]
+    public GameObject laserPrefab;
+    [Tooltip("Drag Laser1.1, Laser1.2, etc. here")]
+    public Transform[] laserShootPoints;
+
+    [Space(10)]
+    [Tooltip("Prefab for your rockets/missiles")]
+    public GameObject rocketPrefab;
+    [Tooltip("Drag Rocket1 etc. here")]
+    public Transform[] rocketShootPoints;
+
+    [Header("Fire Rates & Aiming")]
+    [SerializeField] public float fireRate = 0.15f;
+    [SerializeField] public float rocketFireRate = 1.0f;
+    [Tooltip("Offset angle (0 = Straight ahead from the shoot point)")]
+    [SerializeField] public float shootAngle = 0f;
+
+    [HideInInspector] public float nextFireTime;
+    private float nextRocketFireTime;
+
+    public Rigidbody rb;
+
+    // legacy
+    public bool isPlayer1;
+    public bool isPlayer2;
+    public KeyCode shoot;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-
-        // Give it a little gravity so it "falls" if it gets too far off course, 
-        // mimicking a drone losing lift. Adjust to taste.
-        rb.gravityScale = 0.5f;
-        rb.freezeRotation = true;
-
-        // Set Rigidbody linear drag to 0 in inspector; we handle drag via code for better control
+        rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
         rb.linearDamping = 0f;
     }
 
     private void Update()
     {
-        // Handle GameStats updates (like health regeneration or invincibility timers)
         base.Update();
     }
 
-    private void FixedUpdate()
+    public virtual void FixedUpdate()
     {
-        // --- 1. NETWORK MODE: PHYSICAL DRONE CHECK ---
+        // --- 1. NETWORK MODE ---
         if (WSHost.Instance != null && WSHost.Instance.HasData(droneNetworkKey))
         {
-            // Stop Unity from simulating physics while the real drone is flying
             rb.isKinematic = true;
-
-            // Get the 3D position from the real world via WebSocket
             Vector3 realPos = WSHost.Instance.getPosition(droneNetworkKey) * WSHost.Instance.Factor;
-
-            // Convert real-world 3D (X, Z) into Unity 2D (X, Y)
-            transform.position = new Vector2(realPos.x, realPos.z);
-
-            // Apply real-world rotation mapped to 2D
+            transform.position = realPos;
             float realYaw = WSHost.Instance.getYaw(droneNetworkKey);
-            transform.rotation = Quaternion.Euler(0f, 0f, -realYaw);
-
-            return; // Exit here so we don't apply the default physics
+            transform.rotation = Quaternion.Euler(0f, -realYaw, 0f);
+            return;
         }
 
-        // --- 2. DEFAULT MODE: VIRTUAL DRONE PHYSICS ---
-        if (rb.isKinematic)
-        {
-            rb.isKinematic = false; // Turn physics back on if the real drone disconnects
-        }
+        // --- 2. VIRTUAL DRONE PHYSICS ---
+        if (rb.isKinematic) rb.isKinematic = false;
+
+        Vector3 appliedGravity = Physics.gravity * customGravityScale;
+        rb.AddForce(appliedGravity, ForceMode.Acceleration);
 
         if (targetBox == null) return;
 
-        // 1. Calculate the vector pointing from the drone to the target box
-        Vector2 directionToTarget = (Vector2)targetBox.position - rb.position;
+        Vector3 directionToTarget = targetBox.position - rb.position;
+        Vector3 thrustForce = directionToTarget * thrustPower;
+        Vector3 dampingForce = -rb.linearVelocity * artificialDrag;
+        Vector3 gravityCompensation = -appliedGravity * rb.mass;
 
-        // 2. Apply Thrust (Spring Force)
-        Vector2 thrustForce = directionToTarget * thrustPower;
-
-        // 3. Apply Damping (Air Friction)
-        Vector2 dampingForce = -rb.linearVelocity * artificialDrag;
-
-        // 4. THE FIX: Gravity Compensation (Hover Throttle)
-        // This calculates the exact downward force of gravity on this specific rigidbody and creates an equal upward force
-        Vector2 gravityCompensation = -Physics2D.gravity * rb.gravityScale * rb.mass;
-
-        // 5. Execute physical movement (Notice we added gravityCompensation here)
         rb.AddForce(thrustForce + dampingForce + gravityCompensation);
 
-        // 6. Clamp speed to ensure it doesn't break the sound barrier
         if (rb.linearVelocity.magnitude > maxSpeed)
         {
             rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
     }
 
-    // --- SHOOTING & HEALTH LOGIC (Unchanged) --- //
+    // --- TRIGGER COMMANDS EXECUTION (CALLED VIA TARGET) ---
 
-    public void OnShoot_Left(InputValue value)
+    public void CommandFireLasers()
     {
-        if (value.isPressed) SpawnProjectile(180f);
-    }
-
-    public void OnShoot_Right(InputValue value)
-    {
-        if (value.isPressed) SpawnProjectile(0f);
-    }
-
-    public void OnShoot_Above(InputValue value)
-    {
-        if (value.isPressed) SpawnProjectile(90f);
-    }
-
-    public void OnShoot_Under(InputValue value)
-    {
-        if (value.isPressed) SpawnProjectile(-90f);
-    }
-
-    public void OnFireLaser(InputValue value)
-    {
-        myLaser.FireLaser();
-    }
-
-    private void SpawnProjectile(float angle)
-    {
-        if (Time.time < nextFireTime || projectilePrefab == null) return;
-
+        if (Time.time < nextFireTime) return;
         nextFireTime = Time.time + fireRate;
 
-        Vector3 spawnPos = shootPoint != null ? shootPoint.position : transform.position;
-        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+        // Apply a clean local angle offset around the Y-axis if you have a shootAngle set up
+        Quaternion offset = Quaternion.Euler(0, shootAngle, 0);
 
-        Instantiate(projectilePrefab, spawnPos, rotation);
+        if (laserShootPoints != null && laserShootPoints.Length > 0 && laserPrefab != null)
+        {
+            foreach (Transform point in laserShootPoints)
+            {
+                // Multiply the point's natural rotation by your offset so it shoots perfectly straight out of the muzzle's forward direction!
+                Instantiate(laserPrefab, point.position, point.rotation * offset);
+            }
+        }
+        else if (projectilePrefab != null)
+        {
+            Vector3 spawnPos = shootPoint != null ? shootPoint.position : transform.position;
+            Quaternion spawnRot = shootPoint != null ? shootPoint.rotation * offset : transform.rotation * offset;
+
+            Instantiate(projectilePrefab, spawnPos, spawnRot);
+        }
+    }
+
+    public void CommandFireRockets()
+    {
+        if (Time.time < nextRocketFireTime || rocketPrefab == null || rocketShootPoints == null || rocketShootPoints.Length == 0) return;
+
+        nextRocketFireTime = Time.time + rocketFireRate;
+        Quaternion offset = Quaternion.Euler(0, shootAngle, 0);
+
+        foreach (Transform point in rocketShootPoints)
+        {
+            // Shoots straight forward out of your rocket launcher nozzles!
+            Instantiate(rocketPrefab, point.position, point.rotation * offset);
+        }
     }
 
     public override void Kill()
