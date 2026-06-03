@@ -25,6 +25,8 @@ public class BossController : GameStats
     private Vector3 targetPosition;
     private bool isMovingToPosition = false;
 
+ 
+
     public override void Start()
     {
         base.Start();
@@ -126,13 +128,22 @@ public class BossController : GameStats
             }
         }
     }
-
     #endregion
-
     public override void Kill()
     {
         Debug.Log("Boss Defeated!");
         StopAllCoroutines();
+
+        // Access the Singleton instance directly
+        if (BossSpawnManager.Instance != null)
+        {
+            BossSpawnManager.Instance.OnBossDefeated();
+        }
+        else
+        {
+            Debug.LogWarning("Boss Defeated, but no BossSpawnManager found in scene!");
+        }
+
         base.Kill();
     }
 
