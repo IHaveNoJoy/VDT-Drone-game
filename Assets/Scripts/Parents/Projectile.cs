@@ -8,7 +8,7 @@ public class Projectile : MonoBehaviour
     public float lifeSpan = 5f;
 
     [Header("Arming Logic")]
-    [SerializeField] protected float armingTime = 0.25f;
+    [SerializeField] protected float armingTime = 0.5f;
     protected float timeElapsed = 0f;
 
     // Use 'protected virtual' so child scripts can override or add to these!

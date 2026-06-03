@@ -26,8 +26,6 @@ public class BossController : GameStats
 
     private Vector3 targetPosition;
 
- 
-
     public override void Start()
     {
         base.Start();
@@ -56,8 +54,6 @@ public class BossController : GameStats
         }
     }
 
-    #region AI
-
     private IEnumerator AIBrainLoop()
     {
         yield return new WaitForSeconds(1.5f);
@@ -85,26 +81,16 @@ public class BossController : GameStats
 
             currentAttack = chosen;
 
-            // START ATTACK (animation only)
             currentAttack.Execute(this);
 
             yield return new WaitForSeconds(globalAttackCooldown);
         }
     }
 
-    #endregion
-
-    #region Animation Event Bridge
-
-    // Called from Animation Event at correct frame
     public void Animation_Impact()
     {
         currentAttack?.OnImpact(this);
     }
-
-    #endregion
-
-    #region Movement (unchanged)
 
     private IEnumerator MovementLoop()
     {
@@ -124,16 +110,28 @@ public class BossController : GameStats
             }
 
             yield return new WaitForSeconds(timeSpentAtPosition);
+
             targetPosition = GetRandomPointInZone();
         }
     }
-    #endregion
+
+    private Vector3 GetRandomPointInZone()
+    {
+        Vector3 min = zoneCenter - zoneSize / 2f;
+        Vector3 max = zoneCenter + zoneSize / 2f;
+
+        return new Vector3(
+            Random.Range(min.x, max.x),
+            Random.Range(min.y, max.y),
+            Random.Range(min.z, max.z)
+        );
+    }
+
     public override void Kill()
     {
         Debug.Log("Boss Defeated!");
         StopAllCoroutines();
 
-        // Access the Singleton instance directly
         if (BossSpawnManager.Instance != null)
         {
             BossSpawnManager.Instance.OnBossDefeated();
@@ -146,12 +144,21 @@ public class BossController : GameStats
         base.Kill();
     }
 
-        return new Vector3(
-            Random.Range(min.x, max.x),
-            Random.Range(min.y, max.y),
-            Random.Range(min.z, max.z)
-        );
-    }
+    private void OnDrawGizmosSelected()
+    {
+        if (!Application.isPlaying)
+        {
+            zoneCenter = transform.position;
+        }
 
-    #endregion
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireCube(zoneCenter, zoneSize);
+
+        if (Application.isPlaying)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position, targetPosition);
+            Gizmos.DrawSphere(targetPosition, 0.4f);
+        }
+    }
 }

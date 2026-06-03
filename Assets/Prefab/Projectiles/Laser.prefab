@@ -162,9 +162,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserProjectile
   damage: 10
-  speed: 10
+  speed: 30
   lifeSpan: 60
-  armingTime: 0.25
+  armingTime: 0.5
   explosionPrefab: {fileID: 1337198075554910, guid: 25c7aa9ad705fe143a4d71c1c8deb7d4, type: 3}
   explosionRadius: 1
   explosionDamage: 10
