@@ -134,7 +134,7 @@ MonoBehaviour:
   hitRadius: 0.3
   explodeOnTags:
   - Player
-  - Projectile
+  - Projectiles
   hitLayers:
     serializedVersion: 2
     m_Bits: 4294967295
