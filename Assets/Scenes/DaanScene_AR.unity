@@ -8692,6 +8692,80 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1537083735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1370677336
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1775854755}
+    m_Modifications:
+    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.020668412
+      objectReference: {fileID: 0}
+    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.020668412
+      objectReference: {fileID: 0}
+    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.020668412
+      objectReference: {fileID: 0}
+    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -180
+      objectReference: {fileID: 0}
+    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 644483200646707973, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+      propertyPath: m_Name
+      value: SpaceShipDetailed
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+--- !u!4 &1370677337 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
+  m_PrefabInstance: {fileID: 1370677336}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1372925142
 GameObject:
   m_ObjectHideFlags: 0
@@ -10946,7 +11020,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1775854748}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11028,6 +11102,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 323288173}
+  - {fileID: 1370677337}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1775854756
@@ -11062,7 +11137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 287a1289e4dca6d4abb44ad83661da83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShoot
-  bullet: {fileID: 4267330868607364272, guid: adc17b558a0095d4da1ef47ae081eda9, type: 3}
+  bullet: {fileID: 6578270458863330825, guid: 69f79405259da064c93740451a5369e8, type: 3}
   RateOfFire: 0.8
 --- !u!120 &1775854758
 LineRenderer:
@@ -11188,7 +11263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LaserPointer
   layers:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 0
   Crosshair: {fileID: 631223549}
   line: {fileID: 1775854758}
 --- !u!1 &1797040986
