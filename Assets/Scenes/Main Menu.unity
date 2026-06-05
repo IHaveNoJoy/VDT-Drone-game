@@ -23,10 +23,10 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 1
+  m_AmbientIntensity: 4.03
   m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubtractiveShadowColor: {r: 0.22570488, g: 0.04538977, b: 0.3207547, a: 1}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 7059cfdd72ab2b2418e78edd6f731cf7, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -34,10 +34,10 @@ RenderSettings:
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
-  m_ReflectionBounces: 1
-  m_ReflectionIntensity: 1
+  m_ReflectionBounces: 3
+  m_ReflectionIntensity: 0.518
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 1597947580}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 20201, guid: 0000000000000000f000000000000000, type: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: df58fae56559a5e42a35e74f086ab088, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -198,6 +198,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &13422245
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: e3eed4d66b3cd8344839da7f2273a595, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -184.4797
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e3eed4d66b3cd8344839da7f2273a595, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 26.962439
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e3eed4d66b3cd8344839da7f2273a595, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -561.33844
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e3eed4d66b3cd8344839da7f2273a595, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e3eed4d66b3cd8344839da7f2273a595, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e3eed4d66b3cd8344839da7f2273a595, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e3eed4d66b3cd8344839da7f2273a595, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e3eed4d66b3cd8344839da7f2273a595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e3eed4d66b3cd8344839da7f2273a595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e3eed4d66b3cd8344839da7f2273a595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e3eed4d66b3cd8344839da7f2273a595, type: 3}
+      propertyPath: m_Name
+      value: SpaceShipDetailed
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e3eed4d66b3cd8344839da7f2273a595, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e3eed4d66b3cd8344839da7f2273a595, type: 3}
 --- !u!1 &72824839
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,63 +501,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1001 &952001747
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -38
-      objectReference: {fileID: 0}
-    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -705
-      objectReference: {fileID: 0}
-    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 268661968094667199, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 644483200646707973, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
-      propertyPath: m_Name
-      value: SpaceShipDetailed
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
 --- !u!1 &1282660121
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,7 +730,7 @@ Transform:
   m_GameObject: {fileID: 1597947579}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: -470, y: 792, z: 815}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -798,7 +802,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.19215688, g: 0.4745098, b: 0.44500533, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -848,7 +852,7 @@ Transform:
   m_GameObject: {fileID: 2005210692}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -855}
+  m_LocalPosition: {x: -40, y: 0, z: -846}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -874,9 +878,9 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 0
   m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
+  m_VolumeFrameworkUpdateModeOption: 1
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -1174,4 +1178,4 @@ SceneRoots:
   - {fileID: 1597947581}
   - {fileID: 909129432}
   - {fileID: 2552609}
-  - {fileID: 952001747}
+  - {fileID: 13422245}

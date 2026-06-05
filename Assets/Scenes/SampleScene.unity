@@ -9469,6 +9469,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2928c0367a3cb684eb3bc9f9cb1946e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControlTest1
+  Name: 
+  MaxHp: 0
+  CurrentHP: 0
   obj: {fileID: 0}
   moveVector: {x: 0, y: 0}
   t: {fileID: 1775854755}
