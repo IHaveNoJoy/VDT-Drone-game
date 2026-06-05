@@ -49,8 +49,7 @@ public class PlayerSetup : MonoBehaviour
 
     private void UpdateDualSenseLightBar(InputDevice device, Color color)
     {
-        //TEMP DISABLED
-        /*if (device is DualSenseGamepadHID ps5Controller)
+        if (device is DualSenseGamepadHID ps5Controller)
         {
             try
             {
@@ -60,6 +59,6 @@ public class PlayerSetup : MonoBehaviour
             {
                 Debug.LogWarning($"Failed to set light bar: {error.Message}");
             }
-        }*/
+        }
     }
 }

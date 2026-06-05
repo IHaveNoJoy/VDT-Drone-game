@@ -5,13 +5,20 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 0
+    path: Assets/Scenes/TomScene.unity
+    guid: cfbb80683f8d3a44597a0831d1c68722
+  - enabled: 1
+    path: Assets/Scenes/DaanScene_AR.unity
+    guid: 991b896335fc130478912008dcbc86fa
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 2418abf944cfce04fbc398d22e7ed062, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: fca27c0d492722e43bd3457b8e0c1cc8, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: ceb4971e75a8f11459b0c71be794e3e8, type: 2}
-    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 4e1aececdc7567041b0e358dbc707e36, type: 2}
-    xr.sdk.mock-hmd.settings: {fileID: 11400000, guid: 4a982c9cbe62127449947ea9af31a04a, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 0a82034a459943c4499cb0b876fe6c40, type: 2}
+    xr.sdk.mock-hmd.settings: {fileID: 11400000, guid: b5a32f6aa5b094449800306646255032, type: 2}
   m_UseUCBPForAssetBundles: 0
