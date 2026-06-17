@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db24fae3fd9faea44b57dd347acb3b7a, type: 3}
   m_Name: Pokemon
   m_EditorClassIdentifier: Assembly-CSharp::GameTheme
-  ThemeName: 
-  p1PaddleSprite: {fileID: 0}
-  p2PaddleSprite: {fileID: 0}
-  backgroundSprite: {fileID: 0}
-  ballSprite: {fileID: 0}
-  victoryTextP1: Player 1 Wins!
-  victoryTextP2: Player 2 Wins!
+  ThemeName: Pokemon
+  p1PaddleSprite: {fileID: 21300000, guid: feef79b94701ce0419f09204ba634ca5, type: 3}
+  p2PaddleSprite: {fileID: 21300000, guid: 392b801d23105f4428f6d407ccfc7616, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 8134e97c45eecee4e9b12e6c819addc6, type: 3}
+  ballSprite: {fileID: 21300000, guid: a7e424d487d46a448a0c942f5333ffb1, type: 3}
+  victoryTextP1: Raikwasa wins
+  victoryTextP2: Charmander wins
