@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class ThemeSelectorUI : MonoBehaviour
 {
+    public Canvas myCanvas;
     public ThemeManager themeManager;
     public GameObject menuPanel;
     public List<GameTheme> availableThemes;
@@ -31,5 +32,7 @@ public class ThemeSelectorUI : MonoBehaviour
         menuPanel.SetActive(false);
 
         gameController.StartGame();
+
+        myCanvas.enabled = false;
     }
 }

@@ -134,8 +134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BallController
   defaultSpeed: 3
-  speedIncreasePerHit: 0.5
-  chargeSpeedBoost: 2
+  speedIncreasePerHit: 0.3
+  chargeSpeedBoost: 0.6
 --- !u!58 &7229301957403168919
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -170,5 +170,5 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.015470535, y: -0.010313913}
-  m_Radius: 1.1549289
+  m_Offset: {x: -0.015470535, y: 0.045037717}
+  m_Radius: 0.7397905
