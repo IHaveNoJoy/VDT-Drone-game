@@ -26,18 +26,21 @@ public class PlayerController : GameStats
     [Header("Advanced Weapon Systems")]
     [Tooltip("Prefab for your main laser bolts")]
     public GameObject laserPrefab;
+
     [Tooltip("Drag Laser1.1, Laser1.2, etc. here")]
     public Transform[] laserShootPoints;
 
     [Space(10)]
     [Tooltip("Prefab for your rockets/missiles")]
     public GameObject rocketPrefab;
+
     [Tooltip("Drag Rocket1 etc. here")]
     public Transform[] rocketShootPoints;
 
     [Header("Fire Rates & Aiming")]
     [SerializeField] public float fireRate = 0.15f;
     [SerializeField] public float rocketFireRate = 1.0f;
+
     [Tooltip("Offset angle (0 = Straight ahead from the shoot point)")]
     [SerializeField] public float shootAngle = 0f;
 
@@ -98,22 +101,30 @@ public class PlayerController : GameStats
         }
     }
 
-    // --- TRIGGER COMMANDS EXECUTION (CALLED VIA TARGET) ---
-
+    // --- LASER FIRING (UPDATED WITH OWNER SYSTEM) ---
     public void CommandFireLasers()
     {
         if (Time.time < nextFireTime) return;
         nextFireTime = Time.time + fireRate;
 
-        // Apply a clean local angle offset around the Y-axis if you have a shootAngle set up
         Quaternion offset = Quaternion.Euler(0, shootAngle, 0);
 
         if (laserShootPoints != null && laserShootPoints.Length > 0 && laserPrefab != null)
         {
             foreach (Transform point in laserShootPoints)
             {
-                // Multiply the point's natural rotation by your offset so it shoots perfectly straight out of the muzzle's forward direction!
-                Instantiate(laserPrefab, point.position, point.rotation * offset);
+                GameObject laserObj = Instantiate(
+                    laserPrefab,
+                    point.position,
+                    point.rotation * offset
+                );
+
+                // ✅ IMPORTANT: assign owner so lasers don't hit self
+                LaserProjectile laser = laserObj.GetComponent<LaserProjectile>();
+                if (laser != null)
+                {
+                    laser.owner = gameObject;
+                }
             }
         }
         else if (projectilePrefab != null)
@@ -125,17 +136,23 @@ public class PlayerController : GameStats
         }
     }
 
+    // --- ROCKET FIRING ---
     public void CommandFireRockets()
     {
-        if (Time.time < nextRocketFireTime || rocketPrefab == null || rocketShootPoints == null || rocketShootPoints.Length == 0) return;
+        if (Time.time < nextRocketFireTime || rocketPrefab == null || rocketShootPoints == null || rocketShootPoints.Length == 0)
+            return;
 
         nextRocketFireTime = Time.time + rocketFireRate;
+
         Quaternion offset = Quaternion.Euler(0, shootAngle, 0);
 
         foreach (Transform point in rocketShootPoints)
         {
-            // Shoots straight forward out of your rocket launcher nozzles!
-            Instantiate(rocketPrefab, point.position, point.rotation * offset);
+            Instantiate(
+                rocketPrefab,
+                point.position,
+                point.rotation * offset
+            );
         }
     }
 

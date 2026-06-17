@@ -162,12 +162,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserProjectile
   damage: 10
-  speed: 30
+  speed: 200
   lifeSpan: 60
   armingTime: 0.5
   explosionPrefab: {fileID: 1337198075554910, guid: 25c7aa9ad705fe143a4d71c1c8deb7d4, type: 3}
   explosionRadius: 1
   explosionDamage: 10
+  owner: {fileID: 0}
 --- !u!136 &7403772342788706142
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -202,6 +203,10 @@ PrefabInstance:
     - target: {fileID: 1337198075554910, guid: 25c7aa9ad705fe143a4d71c1c8deb7d4, type: 3}
       propertyPath: m_Name
       value: TinyExplosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337198075554910, guid: 25c7aa9ad705fe143a4d71c1c8deb7d4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4441266138185142, guid: 25c7aa9ad705fe143a4d71c1c8deb7d4, type: 3}
       propertyPath: m_LocalPosition.x

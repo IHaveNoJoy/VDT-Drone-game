@@ -4,7 +4,7 @@ public class LaserProjectile : Projectile
 {
     [Header("Laser & Explosion Settings")]
     [Tooltip("Drag the child TinyExplosion object from your hierarchy into this slot.")]
-    public GameObject explosionPrefab; // In your case, this is the child object
+    public GameObject explosionPrefab;
 
     [Tooltip("If greater than 0, the laser does Area of Effect (AoE) damage when it explodes.")]
     public float explosionRadius = 0f;
@@ -12,11 +12,12 @@ public class LaserProjectile : Projectile
     [Tooltip("Splash damage dealt to objects caught in the explosion radius.")]
     public int explosionDamage = 10;
 
+    [HideInInspector] public GameObject owner; // ✅ IMPORTANT: who fired it
+
     private bool hasExploded = false;
 
     protected override void Start()
     {
-        // Deactivates the explosion on start so it doesn't play while flying
         if (explosionPrefab != null)
         {
             explosionPrefab.SetActive(false);
@@ -27,13 +28,12 @@ public class LaserProjectile : Projectile
 
     protected override void HitTarget()
     {
-        Debug.LogWarning("projectile hit");
         Explode();
         base.HitTarget();
     }
 
     private void ExplodeAndDestroy()
-    {        
+    {
         Explode();
         Destroy(gameObject);
     }
@@ -45,23 +45,22 @@ public class LaserProjectile : Projectile
 
         if (explosionPrefab != null)
         {
-            // 1. Cut the cord: Detach the explosion from the parent so it doesn't get destroyed with the laser
             explosionPrefab.transform.SetParent(null);
-
-            // 2. Turn it on so the particles/visuals actually play
             explosionPrefab.SetActive(true);
-
-            // 3. Tell the explosion to delete itself from the world in 3 seconds
             Destroy(explosionPrefab, 3f);
         }
 
-        // Apply optional Area of Effect (AoE) splash damage
+        // ✅ AOe DAMAGE
         if (explosionRadius > 0f)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
 
             foreach (Collider hit in colliders)
             {
+                // ✅ ignore owner completely
+                if (owner != null && hit.gameObject == owner) 
+                    continue;
+
                 if (hit.TryGetComponent<GameStats>(out GameStats stats))
                 {
                     stats.GetDamage(explosionDamage);
