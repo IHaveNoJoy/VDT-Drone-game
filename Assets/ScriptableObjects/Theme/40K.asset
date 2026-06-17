@@ -17,5 +17,5 @@ MonoBehaviour:
   p2PaddleSprite: {fileID: 21300000, guid: 8587ddb3bb188db429a64886e5418a3e, type: 3}
   backgroundSprite: {fileID: 21300000, guid: a2d454a2a12944f45b7d18d162240cc9, type: 3}
   ballSprite: {fileID: 21300000, guid: db1ba5c24da9d624e836be0eb912d9be, type: 3}
-  victoryTextP1: Player 1 Wins!
-  victoryTextP2: Player 2 Wins!
+  victoryTextP1: Custodies wins
+  victoryTextP2: Grey knights wins

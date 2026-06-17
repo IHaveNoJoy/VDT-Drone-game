@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db24fae3fd9faea44b57dd347acb3b7a, type: 3}
   m_Name: LOTR
   m_EditorClassIdentifier: Assembly-CSharp::GameTheme
-  p1PaddleSprite: {fileID: 0}
-  p2PaddleSprite: {fileID: 0}
-  backgroundSprite: {fileID: 0}
-  ballSprite: {fileID: 0}
-  victoryTextP1: Player 1 Wins!
-  victoryTextP2: Player 2 Wins!
+  ThemeName: Lord of the rings
+  p1PaddleSprite: {fileID: 21300000, guid: c7ba3993487946f4a927c1c2150e5d9a, type: 3}
+  p2PaddleSprite: {fileID: 21300000, guid: 39792c539a4c0bf4fbcce3014d350e75, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 40ab324a64049d84aa6798fe2010eded, type: 3}
+  ballSprite: {fileID: 21300000, guid: 4c652fde0856446488c914b41663d1f7, type: 3}
+  victoryTextP1: Dwafish Victory
+  victoryTextP2: Orcish Victory

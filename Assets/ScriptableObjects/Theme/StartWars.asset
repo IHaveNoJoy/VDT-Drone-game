@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db24fae3fd9faea44b57dd347acb3b7a, type: 3}
   m_Name: StartWars
   m_EditorClassIdentifier: Assembly-CSharp::GameTheme
-  p1PaddleSprite: {fileID: 0}
-  p2PaddleSprite: {fileID: 0}
-  backgroundSprite: {fileID: 0}
-  ballSprite: {fileID: 0}
-  victoryTextP1: Player 1 Wins!
-  victoryTextP2: Player 2 Wins!
+  ThemeName: Star wars
+  p1PaddleSprite: {fileID: 21300000, guid: cc428fee215d2b64b990a15f8d467ae8, type: 3}
+  p2PaddleSprite: {fileID: 21300000, guid: 7912c1c329e684747aecfe5f0c3a0d6b, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 45ea746df0be1004db2a92eafba447a5, type: 3}
+  ballSprite: {fileID: 21300000, guid: 2418fe5568f8054488d12720501a03e8, type: 3}
+  victoryTextP1: Droid Victory
+  victoryTextP2: Clone Victory
