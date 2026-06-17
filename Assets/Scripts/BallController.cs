@@ -5,15 +5,27 @@ public class BallController : MonoBehaviour
 {
     [Header("Speed Settings")]
     public float defaultSpeed = 8f;
-    [Tooltip("How much the base speed increases every time a player is hit.")]
+    [Tooltip("How much the base speed permanently increases every time a player is hit.")]
     public float speedIncreasePerHit = 0.5f;
 
+    [Header("Charge Settings")]
+    [Tooltip("How much the speed temporarily increases per charge level (0.15 = 15%).")]
+    public float chargeSpeedBoost = 0.15f;
+
     private float currentBaseSpeed;
-    private float currentActiveSpeed; // Includes multipliers
+    private float currentActiveSpeed; // Includes temporary multipliers
+    private float tempSpeedModifier = 1f; // Resets on every hit
     private Rigidbody2D rb;
 
     void Start()
     {
+        ThemeManager manager = FindObjectOfType<ThemeManager>();
+        if (manager != null)
+        {
+            // Set the sprite to whatever the manager says is the current ball sprite
+            GetComponent<SpriteRenderer>().sprite = manager.activeTheme.ballSprite;
+        }
+
         rb = GetComponent<Rigidbody2D>();
 
         // Force the physics settings in code to ensure zero gravity and zero drag
@@ -27,6 +39,7 @@ public class BallController : MonoBehaviour
     public void ResetBall()
     {
         currentBaseSpeed = defaultSpeed;
+        tempSpeedModifier = 1f;
         currentActiveSpeed = defaultSpeed;
 
         transform.position = Vector3.zero;
@@ -54,27 +67,33 @@ public class BallController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Bat"))
         {
+            // 1. Apply the permanent speed increase to the base speed
             currentBaseSpeed += speedIncreasePerHit;
-            float multiplier = 1f;
 
+            // 2. Reset the temporary modifier for this new hit
+            tempSpeedModifier = 1f;
+
+            // Grab the controller from either the Player or the Bat (GetComponentInParent handles both!)
             PongDroneController player = collision.gameObject.GetComponentInParent<PongDroneController>();
-            if (player != null && collision.gameObject.CompareTag("Bat"))
+
+            // CHANGED: We no longer care if it hit the Bat or the Player specifically.
+            // If the player exists and is swinging, give them the charge boost!
+            if (player != null)
             {
-                multiplier = player.GetBatMultiplier();
+                int chargeLevel = player.GetChargeLevel();
+                tempSpeedModifier += (chargeLevel * chargeSpeedBoost);
             }
 
-            currentActiveSpeed = currentBaseSpeed * multiplier;
+            // 3. Calculate the new active speed
+            currentActiveSpeed = currentBaseSpeed * tempSpeedModifier;
 
+            // 4. Calculate bounce direction
             ContactPoint2D contact = collision.GetContact(0);
             Vector2 paddleCenter = collision.transform.position;
             Vector2 bounceDirection = (contact.point - paddleCenter).normalized;
 
             rb.linearVelocity = bounceDirection * currentActiveSpeed;
         }
-
-        // Notice we removed the "else" statement for the walls! 
-        // Because of our new FixedUpdate, Unity handles the wall bounce angle 
-        // automatically, and FixedUpdate ensures the speed stays perfect.
     }
 
     private void PreventStuckBall()

@@ -24,10 +24,10 @@ public class PongDroneController : MonoBehaviour
     public float endAngle = 0f;
 
     [Header("Charge Mechanics")]
-    public float quickSwingMultiplier = 1.25f;
-    public float maxChargeMultiplier = 3.0f;
+    [Tooltip("Maximum charge level the player can reach.")]
+    public int maxChargeLevel = 3;
+    [Tooltip("Time in seconds to hold the button to reach the next charge level.")]
     public float chargeTimePerLevel = 0.5f;
-    public float multiplierIncreasePerLevel = 0.5f;
 
     [Header("Visuals")]
     public GameObject chargeParticlePrefab;
@@ -39,15 +39,17 @@ public class PongDroneController : MonoBehaviour
     private bool isSwinging = false;
     private bool swingingForward = false;
 
-    // NEW: Variables to hold the direction-corrected angles
+    // Variables to hold the direction-corrected angles
     private float adjustedStartAngle;
     private float adjustedEndAngle;
     private float currentBatAngle = 0f;
 
     private bool isCharging = false;
     private float chargeTimer = 0f;
-    private float currentMultiplier = 1f;
-    private float activeSwingMultiplier = 1f;
+
+    // NEW: Integer-based charge tracking to match the BallController
+    private int currentChargeLevel = 0;
+    private int activeChargeLevel = 0;
 
     void Start()
     {
@@ -64,14 +66,6 @@ public class PongDroneController : MonoBehaviour
             batPivot.localRotation = Quaternion.Euler(0, 0, currentBatAngle);
         }
 
-        if (targetCube != null) targetCube.SetParent(null);
-        else
-        {
-            GameObject vt = new GameObject("VirtualTargetCube");
-            targetCube = vt.transform;
-            targetCube.position = transform.position;
-        }
-
         // Handle target cube
         if (targetCube != null) targetCube.SetParent(null);
         else
@@ -82,7 +76,6 @@ public class PongDroneController : MonoBehaviour
         }
     }
 
-    // ... (OnMove and OnSwing remain the same)
     void OnMove(InputValue value)
     {
         Vector2 raw = value.Get<Vector2>();
@@ -131,16 +124,18 @@ public class PongDroneController : MonoBehaviour
         {
             isCharging = true;
             chargeTimer = 0f;
-            currentMultiplier = quickSwingMultiplier;
+            currentChargeLevel = 0; // A quick tap is a level 0 charge (normal speed)
         }
 
         if (isCharging && isChargeButtonPressed)
         {
             chargeTimer += Time.deltaTime;
-            if (chargeTimer >= chargeTimePerLevel && currentMultiplier < maxChargeMultiplier)
+
+            // Check if we hit the time threshold for the next level
+            if (chargeTimer >= chargeTimePerLevel && currentChargeLevel < maxChargeLevel)
             {
-                chargeTimer = 0f;
-                currentMultiplier += multiplierIncreasePerLevel;
+                chargeTimer = 0f; // Reset timer for the next level
+                currentChargeLevel++;
 
                 // Use the custom spawn point if assigned, otherwise default to pivot
                 Vector3 spawnPos = (effectSpawnPoint != null) ? effectSpawnPoint.position : batPivot.position;
@@ -153,7 +148,9 @@ public class PongDroneController : MonoBehaviour
             isCharging = false;
             isSwinging = true;
             swingingForward = true;
-            activeSwingMultiplier = currentMultiplier;
+
+            // Lock in whatever level we reached so the ball can read it
+            activeChargeLevel = currentChargeLevel;
         }
     }
 
@@ -177,12 +174,16 @@ public class PongDroneController : MonoBehaviour
             else
             {
                 isSwinging = false;
-                activeSwingMultiplier = 1f;
+                activeChargeLevel = 0; // Reset the active charge when the swing completely finishes
             }
         }
     }
 
-    public float GetBatMultiplier() => isSwinging ? activeSwingMultiplier : 1f;
+    // NEW: Method called by BallController to get the integer charge level
+    public int GetChargeLevel()
+    {
+        return isSwinging ? activeChargeLevel : 0;
+    }
 
     private float GetCorrectedAngle(float angle)
     {

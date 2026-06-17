@@ -1,14 +1,18 @@
-using UnityEngine;
-using TMPro;
+using Oculus.Interaction;
 using System.Collections;
+using TMPro;
+using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
     [Header("UI & References")]
     public TMP_Text p1ScoreText;
     public TMP_Text p2ScoreText;
+    public GameObject victoryScreen;
+    public TMP_Text victoryText;
     public GameObject ballPrefab;
     public Transform ballSpawnPoint;
+    public ThemeManager themeManager;
 
     [Header("Game Settings")]
     public int winningScore = 5;
@@ -17,18 +21,25 @@ public class GameController : MonoBehaviour
     private int scoreP1 = 0;
     private int scoreP2 = 0;
     private bool isGameOver = false;
-    private int lastWinner = 0; // 0 = Random/Start, 1 = P1, 2 = P2
+    private int lastWinner = 0;
+    private bool isGameRunning = false;
 
     void Start()
     {
+        Time.timeScale = 1;
+
+        if (victoryScreen != null)
+        {
+            victoryScreen.SetActive(false);
+        }
+
         UpdateScoreUI();
-        StartCoroutine(SpawnBallWithDelay());
     }
 
     // This is the "Brain" function called by the Goal triggers
     public void ScoreGoal(int playerWhoScored)
     {
-        if (isGameOver) return;
+        if (isGameOver || !isGameRunning) return;
 
         if (playerWhoScored == 1) scoreP1++;
         else scoreP2++;
@@ -58,24 +69,42 @@ public class GameController : MonoBehaviour
 
     private IEnumerator SpawnBallWithDelay()
     {
-        yield return new WaitForSeconds(1.5f);
+        if (isGameRunning)
+        {
+            yield return new WaitForSeconds(1.5f);
 
-        GameObject ball = Instantiate(ballPrefab, ballSpawnPoint.position, Quaternion.identity);
-        Rigidbody2D rb = ball.GetComponent<Rigidbody2D>();
+            GameObject ball = Instantiate(ballPrefab, ballSpawnPoint.position, Quaternion.identity);
+            Rigidbody2D rb = ball.GetComponent<Rigidbody2D>();
 
-        // If lastWinner is 0 (start of game), pick random side
-        // If lastWinner is 1, it means P1 scored, so the ball goes to P2 (Left)
-        int directionMultiplier = 0;
+            // If lastWinner is 0 (start of game), pick random side
+            // If lastWinner is 1, it means P1 scored, so the ball goes to P2 (Left)
+            int directionMultiplier = 0;
 
-        if (lastWinner == 0) directionMultiplier = (Random.value > 0.5f) ? 1 : -1;
-        else directionMultiplier = (lastWinner == 1) ? -1 : 1; // P1 scored -> go left (-1), P2 scored -> go right (1)
+            if (lastWinner == 0) directionMultiplier = (Random.value > 0.5f) ? 1 : -1;
+            else directionMultiplier = (lastWinner == 1) ? -1 : 1; // P1 scored -> go left (-1), P2 scored -> go right (1)
 
-        rb.linearVelocity = new Vector2(directionMultiplier * serveForce, 0);
+            rb.linearVelocity = new Vector2(directionMultiplier * serveForce, 0);
+        }
     }
 
     private void GameOver()
     {
-        isGameOver = true;
-        Debug.Log($"Game Over! {(scoreP1 > scoreP2 ? "Player 1 Wins!" : "Player 2 Wins!")}");
+        themeManager.UpdateVictoryText(scoreP1 > scoreP2);
+
+        victoryScreen.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void StartGame()
+    {
+        isGameRunning = true;
+        Time.timeScale = 1;
+        StartCoroutine(SpawnBallWithDelay());
+        Debug.Log("Game Started!");
+    }
+    public void PauseGame()
+    {
+        isGameRunning = false;
+        Time.timeScale = 0;
     }
 }

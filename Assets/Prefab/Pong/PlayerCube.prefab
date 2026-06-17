@@ -118,7 +118,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 6905562749588875414, guid: 215687feeab0b7445b4a1cd86c82c2e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -151,10 +151,8 @@ MonoBehaviour:
   swingSpeed: 800
   startAngle: 90
   endAngle: -90
-  quickSwingMultiplier: 1.25
-  maxChargeMultiplier: 3
+  maxChargeLevel: 3
   chargeTimePerLevel: 0.5
-  multiplierIncreasePerLevel: 0.5
   chargeParticlePrefab: {fileID: 870118882187954076, guid: f5db2caca45bc9d4bbac9cb28c7936ed, type: 3}
   effectSpawnPoint: {fileID: 8725638332912236983}
 --- !u!50 &8835274754310449390
@@ -222,7 +220,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.83, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -501,7 +499,7 @@ GameObject:
   - component: {fileID: 8369364706736604198}
   m_Layer: 0
   m_Name: Batpivot
-  m_TagString: Untagged
+  m_TagString: Bat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
