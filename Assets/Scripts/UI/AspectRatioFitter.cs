@@ -4,8 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class AspectRatioFitter : MonoBehaviour
 {
-    // Default is 16:9 (standard widescreen). Change if needed!
-    public float targetAspect = 16.0f / 9.0f;
+    [Header("Target Resolution")]
+    public float targetWidth = 1920f;
+    public float targetHeight = 1080f;
 
     // Choose the color of your gizmo box
     public Color gizmoColor = Color.green;
@@ -19,6 +20,9 @@ public class AspectRatioFitter : MonoBehaviour
     void ApplyAspectRatio()
     {
         Camera cam = GetComponent<Camera>();
+
+        // Calculate the aspect ratio dynamically based on your target resolution
+        float targetAspect = targetWidth / targetHeight;
         float windowAspect = (float)Screen.width / (float)Screen.height;
         float scaleHeight = windowAspect / targetAspect;
 
@@ -54,6 +58,7 @@ public class AspectRatioFitter : MonoBehaviour
         {
             Gizmos.color = gizmoColor;
 
+            float targetAspect = targetWidth / targetHeight;
             float height = cam.orthographicSize * 2f;
             float width = height * targetAspect;
 
