@@ -139,7 +139,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1541,7 +1541,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 849577861210542311, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -178
+      value: -163
       objectReference: {fileID: 0}
     - target: {fileID: 849577861210542311, guid: 7768a8f64b02efa439aaf353d8d0b04b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1898,12 +1898,12 @@ MonoBehaviour:
   zoneSize: {x: 10, y: 10, z: 5}
   movementSpeed: 3
   timeSpentAtPosition: 1.5
-  maxMana: 100
-  currentMana: 30
-  manaRegenRate: 5
-  globalAttackCooldown: 2.5
+  maxMana: 10000
+  currentMana: 10000
+  manaRegenRate: 10000
+  globalAttackCooldown: 1
   attackPool:
-  - {fileID: 11400000, guid: babbde87d8821a743a3d3b6333dc96ba, type: 2}
+  - {fileID: 11400000, guid: 7f905f034bd4bc64b87c9f6b62c60180, type: 2}
 --- !u!95 &1497343274
 Animator:
   serializedVersion: 7

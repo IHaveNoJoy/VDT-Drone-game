@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 485f5815b21488641ac084af83b52365, type: 3}
-  m_Name: GravityBullet
+  m_Name: GravityBullet 1
   m_EditorClassIdentifier: Assembly-CSharp::ShootProjectileAttack
   attackName: GravityBullet
   manaCost: 20
   animationTrigger: GravityBullet
-  projectilePrefab: {fileID: 3252349388681138894, guid: e1e459231fd86c440ac3d7f0632b2bb3, type: 3}
+  projectilePrefab: {fileID: 3252349388681138894, guid: 72a7e825bab9e334fa041d4730c068e4, type: 3}
   damageOverride: 0
   speedOverride: 0
   targetTag: Drone
   possiblePatterns: 00000000010000000200000003000000
-  bulletCount: 20
-  spreadAngle: 90
+  bulletCount: 30
+  spreadAngle: 60
+  verticalRandomness: 0.5

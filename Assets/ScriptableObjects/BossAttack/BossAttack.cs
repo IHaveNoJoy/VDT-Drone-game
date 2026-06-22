@@ -2,6 +2,13 @@ using UnityEngine;
 
 public abstract class BossAttack : ScriptableObject
 {
+    public enum BossPattern
+{
+    Single,
+    Radial,
+    Cone,
+    Spiral
+}
     [Header("Base Attack Configurations")]
     public string attackName = "New Boss Attack";
     public int manaCost = 20;
