@@ -102,7 +102,7 @@ public class GameController : MonoBehaviour
     {
         if (isGameRunning)
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(3f);
 
             // Assign the newly spawned ball to our cached variable
             currentBall = Instantiate(ballPrefab, ballSpawnPoint.position, Quaternion.identity);
