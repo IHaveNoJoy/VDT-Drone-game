@@ -82,6 +82,10 @@ public class BallController : MonoBehaviour
             {
                 int chargeLevel = player.GetChargeLevel();
                 tempSpeedModifier += (chargeLevel * chargeSpeedBoost);
+                if (chargeLevel > 0)
+                {
+                    AudioManager.Instance?.PlayHitSound();
+                }
             }
 
             // 3. Calculate the new active speed
